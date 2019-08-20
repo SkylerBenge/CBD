@@ -1,0 +1,22 @@
+{% if section.settings.product_related_enable %}
+  {% include 'related-products' %}
+{% endif %}  
+
+{% schema %}
+  {
+    "name": "Related Products",
+    "settings": [
+        {
+          "type": "checkbox",
+          "id": "product_related_enable",
+          "label": "Enable related products"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

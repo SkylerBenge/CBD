@@ -1,0 +1,39 @@
+<!-- /sections/instagram.liquid -->
+
+<div data-section-type="instagram" data-section-id="{{ section.id }}">
+  <div class = "insta-wrapper clearfix">
+    <div id="instafeed" class="grid" data-access-token="{{ section.settings.instagram_access_token }}" data-num-photos="{{ section.settings.num_photos }}"></div>
+    {% if section.settings.instagram_access_token == blank %}
+      {% for i in (1..6) %}
+       <div class ="grid__item large--one-sixth medium-down--one-half" style="padding-left:0px !important;"> {{ 'image' | placeholder_svg_tag: "placeholder-svg-filled" }}</div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Instagram",
+  "class":"instagram-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "instagram_access_token",
+      "label": "Instagram access token",
+      "info": "[Get your access token](http://pagemilldesign.com/instagram-privacy-policy)"
+    },
+    {
+      "type": "text",
+      "id": "num_photos",
+      "label": "Number of photos to display",
+      "default": "6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram",
+      "category": "Social"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,127 @@
+<!-- /sections/featured-product-ltd.liquid -->
+
+{% assign product = all_products[section.settings.featured_product] %}
+{% include 'bold-product' with product, hide_action: 'break', output: 'none' %}
+
+
+{% if product.available %}
+  {% assign sold_out = false %}
+{% else %}
+  {% assign sold_out = true %}
+{% endif %}
+
+{% if bold_compare_at_price_min > bold_price_min %}
+  {% if sold_out %}
+    {% assign on_sale = false %}
+  {% else %}
+    {% assign on_sale = true %}
+  {% endif %}  
+{% else %}
+  {% assign on_sale = false %}
+{% endif %}
+
+{% assign current_variant = bold_selected_or_first_available_variant %}
+
+<div class = "wrapper {% if product == blank %} onboarding-fp {% endif %} product--{{section.id}}" id = "featured-product-ltd"  data-section-id="{{ section.id }}"  data-section-type="featured-product-ltd">
+  <div class="featured-product text-center {% if tag == true %} fp-has-tag {% endif %}">
+  {% unless product == blank %}
+    
+    <!-- /snippets/product-grid-item.liquid -->
+
+
+{% assign tag = false %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% else %}
+  {% assign sold_out = true %}
+  {% assign tag = true %}
+{% endif %}
+
+
+{% if bold_compare_at_price_min > bold_price_min %}
+  {% if sold_out %}
+    {% assign on_sale = false %}
+  {% else %}
+    {% assign on_sale = true %}
+    {% assign tag = true %}
+  {% endif %}  
+{% else %}
+  {% assign on_sale = false %}
+{% endif %}
+
+<div class=" text-center  {% if tag == true %}has-tag{% endif %} product-item-parent">
+
+  <hr class="hr--med">
+  <!-- Title -->
+  <h3><a href="{{ product.url | within: collection }}">{{ product.title | truncatewords: 4 }}</a></h3>
+  <a href="{{ product.url | within: collection }}">
+    <!-- Price -->
+    <p class="price">
+      {% if on_sale == true %}
+         {{ bold_price | money  | remove: '.00'}}
+        <span class = "reduced-price"><s>{{ bold_compare_at_price | money | remove: '.00' }}</s></span>
+      {% elsif bold_price_varies %}
+        {{bold_price_min | money }} - {{ bold_price_max | money | remove: '.00' }}
+      {% else %}
+        {{ bold_price | money | remove: '.00' }}
+      {% endif %}
+    </p>
+  </a>
+  {% if settings.show_product_grid_buttons %}
+  <a class="btn" href="{{ product.url | within: collection }}">{{ 'products.product.view_item' | t }}</a>
+  {% endif %}
+  <!-- Image -->
+  <a href="{{ product.url | within: collection }}" class="grid__image on-bottom">
+
+  <!-- Tags -->
+  {% if on_sale %}
+    <div class="tag"><span>{{ 'products.product.on_sale_html' | t }}</span></div>
+  {% endif %}
+  {% if sold_out %}
+    <div class="tag"><span>{{ 'products.product.sold_out_html' | t }}</span></div>
+  {% endif %}
+  
+ 
+  	 <img class = "product-image lazyload" data-src="{{ product.featured_image.src | img_url: 'grande' }}" src="{{ product.featured_image.src | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}">
+      
+  </a>
+
+</div>
+    
+    
+
+  {% else %}
+    {% unless emptyState %}
+      {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+      {% assign emptyState = true %}
+    {% endunless %}
+    {% include 'onboarding-featured-product' %}
+  {% endunless %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Prod Full Width",
+    "class":"featured-product-section",
+    "settings": [
+      {
+        "type": "product",
+        "id": "featured_product",
+        "label": "Product"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_social_sharing_products",
+        "label": "Show social sharing buttons",
+        "default":true
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured Product Full Width",
+        "category": "Product"
+      }
+    ]
+  }
+{% endschema %}

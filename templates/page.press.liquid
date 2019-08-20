@@ -1,0 +1,76 @@
+<!-- /templates/page.liquid -->
+
+<div class="grid--full wrapper">
+  <div class="grid__item">
+	<h1 class= "page-title text-center">{{ page.title }}</h1> 
+      {{ page.content }}
+  </div>
+</div>
+
+
+<style>
+#PageContainer {
+   background-color: #f8f8f8;
+}
+.grid--full {
+  max-width: 2000px;
+  margin: 0 auto;
+}
+.grid--blog {
+  overflow: auto;
+  margin-right: 30px;
+  margin-left: 0;
+}
+.blog__item {
+  padding: 0 10px;
+  float: left;
+}
+.blog__item>div {
+  min-height: 300px;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+.article__link {
+  display: block;
+}
+.article__link:hover {
+  text-decoration: none;
+}
+.blog__item .article__grid-image-wrapper {
+  max-width: 200px;
+  min-height: 150px;
+  padding-top: 25px;
+  margin: 0 auto;
+}
+.grid__item .article__grid-image-wrapper:after {
+    content: '';
+    width: 10%;
+    display: block;
+    height: 3px;
+    background-color: #000;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}  
+.article__title {
+  font-size: 18px;
+  text-align: center;
+  max-width: 300px;
+  margin: 10px auto 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.article__title:hover, .article__title:focus {
+  color: #00aae7;
+}  
+.article__grid-meta {
+  text-align: center;
+  margin-bottom: 20px;
+} 
+.article__date {
+    color: #00aae7;
+    font-size: 12px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}  
+</style>

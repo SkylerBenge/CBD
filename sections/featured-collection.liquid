@@ -1,0 +1,46 @@
+<!-- /sections/featured-collection.liquid -->
+{% if section.settings.enable_collection_toggle %}
+{% include 'collection-toggle' %}
+{% endif %}
+{% assign collection = collections[section.settings.featured_collection] %}
+{% assign productsNumber =  50  %}
+<div class = "featured-collection-section" id="featured-collection" data-section-id="{{ section.id }}"  data-section-type="featured-collection">
+  <div id="buynow" class="grid--full featured-collection wrapper flex-grid">
+    
+    {% for product in collection.products limit:productsNumber %}
+		{% include 'bold-product' with product, hide_action: 'skip' %}
+        {% include 'product-grid-item' %}
+    {% else %}
+    {% unless emptyState %}
+      {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+      {% assign emptyState = true %}
+      {% endunless %}
+      {% include 'onboarding-empty-collection' %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_collection_toggle",
+      "label": "Enable collection toggle"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

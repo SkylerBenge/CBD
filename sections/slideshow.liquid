@@ -1,0 +1,376 @@
+<!-- /sections/slideshow.liquid -->
+
+{% if section.settings.enable_slider_margins %}
+{% assign slider_margins = "slider-margins" %}
+{% endif %}
+<div data-section-id="{{ section.id }}" data-section-type="slider" data-slides-count="{{ section.blocks.size }}">
+<div class="slider">
+  {% if section.blocks.size > 0 %}
+    <div class="slide-block {{ section.settings.hero_text_alignment }} {{ slider_margins }}">
+      <div class="owl-carousel">
+        {% for block in section.blocks %}
+
+        {% if block.settings.slide_btn_link != blank %}
+          {% assign btn_link =  block.settings.slide_btn_link  %}
+        {% else %}
+          {% assign btn_link = "#!" %}
+        {% endif %}
+
+        <div class="item" {{ block.shopify_attributes }} data-slide-position="{{ forloop.index }}">
+        {% if section.settings.slider_text_position == 'slider-text-block' %}
+         <div class = "overlay {{ section.settings.hero_overlay }}"></div>
+        {% endif %}
+          <div class="{{ section.settings.slider_text_position }}" style="left: {{ block.settings.text_position}}%">
+            <img src="{{ block.settings.image | img_url: '900x'}}" class="mobile-only" />
+            {% if block.settings.slide_heading != blank %}
+            <p class="slide-title main-heading {{ section.settings.text_color }}">{{ block.settings.slide_heading | escape }}</p>
+            {% endif %}
+            {% if block.settings.slide_subheading != blank %}
+            <p class="slider-caption main-subheading {{ section.settings.text_color }}  {{ block.settings.subheading_text_size }}">{{ block.settings.slide_subheading | escape }}</p>
+            {% endif %}
+            {% if block.settings.slide_subsubheading != blank %}
+            <p class="slider-caption subsub-heading {{section.settings.text_color }}">{{block.settings.slide_subsubheading | escape }}</p>
+            {% endif %}
+              <div class="slider-cta">
+              {% if block.settings.slide_btn_text != blank %}
+                <a class="btn call-to-action slider-btn" href="{{ btn_link }}">{{ block.settings.slide_btn_text | escape }}</a>
+              {% endif %}
+              {% if block.settings.video_btn_text != blank %}
+                <a class="video-text-link secondary-call-to-action {{ section.settings.text_color }}" href="{{ block.settings.video_btn_link }}">
+                <i class="custom-icon-play-button call-to-action-circle {{ section.settings.text_color }}"></i>
+                <span>{{ block.settings.video_btn_text }}</span>
+                </a>
+              {% endif %}
+              </div>
+          </div>
+          {% unless block.settings.image == blank %}
+          <div class="slides {{ section.settings.slide_height }} {{ block.settings.bg_position }}" style="background-image: url('{{ block.settings.image | img_url: '2048x'}}'); background-size: {{ block.settings.image_size}}%">
+          </div>
+          {% else %}
+           <div class="slides placeholder-bg {{ section.settings.slide_height }}" style="background-image: url(' {% include 'placeholder_svg_uri', placeholder : 'lifestyle-2' %} ');">
+          </div>
+          {% endunless %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Slider",
+  "max_blocks": 3,
+  "class":"slideshow",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Setting"
+    },
+    {
+      "type": "select",
+      "id": "slide_height",
+      "label": "Slide height",
+      "default": "one-hundred-height-hero",
+      "options": [
+        {
+          "value": "one-hundred-height-hero",
+          "label": "Full screen height"
+        },
+        {
+          "value": "seventy-five-height-hero ",
+          "label": "Tall"
+        },
+        {
+          "value": "sixty-six-height-hero",
+          "label": "Medium"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "slider_text_position",
+      "label": "Text position",
+      "default": "slider-text-block-outside",
+      "options": [
+        {
+          "value": "slider-text-block",
+          "label": "Inside"
+        },
+        {
+          "value": "slider-text-block-outside",
+          "label": "Outside"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "hero_text_alignment",
+      "label": "Text alignment",
+      "default": "text-left",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "text-dark",
+      "options": [
+        {
+          "value": "text-light",
+          "label": "Light"
+        },
+        {
+          "value": "text-dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_slider_margins",
+      "label": "Enable slider margins",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "hero_overlay",
+      "label": "Slide overlay opacity",
+      "options": [
+        {
+          "value": "overlay-0",
+          "label": "0%"
+        },
+        {
+          "value": "overlay-5",
+          "label": "5%"
+        },
+        {
+          "value": "overlay-10",
+          "label": "10%"
+        },
+        {
+          "value": "overlay-15",
+          "label": "15%"
+        },
+        {
+          "value": "overlay-20",
+          "label": "20%"
+        },
+        {
+          "value": "overlay-25",
+          "label": "25%"
+        },
+        {
+          "value": "overlay-30",
+          "label": "30%"
+        },
+        {
+          "value": "overlay-35",
+          "label": "35%"
+        },
+        {
+          "value": "overlay-40",
+          "label": "40%"
+        },
+        {
+          "value": "overlay-45",
+          "label": "45%"
+        },
+        {
+          "value": "overlay-50",
+          "label": "50%"
+        },
+        {
+          "value": "overlay-55",
+          "label": "55%"
+        },
+        {
+          "value": "overlay-60",
+          "label": "60%"
+        },
+        {
+          "value": "overlay-65",
+          "label": "65%"
+        },
+        {
+          "value": "overlay-70",
+          "label": "70%"
+        },
+        {
+          "value": "overlay-75",
+          "label": "75%"
+        },
+        {
+          "value": "overlay-80",
+          "label": "80%"
+        },
+        {
+          "value": "overlay-85",
+          "label": "85%"
+        },
+        {
+          "value": "overlay-90",
+          "label": "90%"
+        },
+        {
+          "value": "overlay-95",
+          "label": "95%"
+        },
+        {
+          "value": "overlay-100",
+          "label": "100%"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "2048px width recommended"
+        },
+        {
+          "type": "range",
+          "id": "image_size",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "label": "Image Size",
+          "default": 30
+        },
+        {
+          "type": "select",
+          "id": "bg_position",
+          "label": "Image position",
+          "default": "bg-pos-center-center",
+          "options": [
+            {
+              "value": "bg-pos-left-center",
+              "label": "Left"
+            },
+            {
+              "value": "bg-pos-right-center",
+              "label": "Right"
+            },
+            {
+              "value": "bg-pos-center-center",
+              "label": "Center"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "slide_heading",
+          "label": "Heading",
+          "default": "Select CBD"
+        },
+        {
+          "type": "text",
+          "id": "slide_subheading",
+          "label": "Subheading",
+          "default": "Cras justo odio, dapibus ac facilisis in, egestas eget quam."
+        },
+        {
+          "type": "select",
+          "id": "subheading_text_size",
+          "label": "Subheading size",
+          "default": "one-subheading",
+          "options": [
+            {
+              "value": "two-subheading",
+              "label": "Extra Large"
+            },
+            {
+              "value": "one-five-subheading",
+              "label": "Large"
+            },
+            {
+              "value": "one-three-subheading",
+              "label": "Medium"
+            },
+            {
+              "value": "one-subheading",
+              "label": "Regular"
+            },
+            {
+              "value": "point-nine-subheading",
+              "label": "Extra Small"
+            }
+          ]
+        },
+		{
+          "type": "text",
+          "id": "slide_subsubheading",
+          "label": "Sub text",
+          "default": "Cras justo odio, dapibus ac facilisis in, egestas eget quam."
+        },
+        {
+          "type": "text",
+          "id": "slide_btn_text",
+          "label": "Button Text",
+          "default": "Welcome"
+        },
+        {
+          "type": "url",
+          "id": "slide_btn_link",
+          "label": "Button URL"
+        },
+        {
+          "type": "range",
+          "id": "text_position",
+          "min": 25,
+          "max": 80,
+          "step": 1,
+          "unit": "%",
+          "label": "Text Location",
+          "default": 30
+        },
+        {
+          "type": "text",
+          "id": "video_btn_text",
+          "label": "Video button text",
+          "default": "Watch the Video"
+        },
+        {
+          "type": "video_url",
+          "id": "video_btn_link",
+          "label": "Video URL",
+          "accept": [
+            "youtube",
+            "vimeo"
+          ],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Slider",
+      "category": "Slider",
+      "blocks": [
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

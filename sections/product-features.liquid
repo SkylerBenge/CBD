@@ -1,0 +1,116 @@
+{% comment %}  
+Desktop layout
+{% endcomment %}
+<div data-section-id="{{ section.id }}" data-section-type="product-features">
+  {% comment %}  
+  Product feature 1
+  {% endcomment %}
+  {% for block in section.blocks %}
+  <div class="grid--full feature-1-wrapper feature-wrapper" {{ block.shopify_attributes }}>
+    
+    
+    {% if block.settings.image_1 != blank %} 
+    <div class = "feature-1-image-1">
+            {{ block.settings.image_1 | img_url: '120x' | img_tag: block.settings.image_1.alt }}
+      </div>
+    {% endif %}
+    	 
+    
+    
+    
+    	
+   		
+      
+    <div class="feature-1-text feature-text wrapper narrow">
+      <h2 class="h1">{{ block.settings.heading }}</h2>
+      <hr>
+      <div class="larger">{{block.settings.subtitle | newline_to_br }}</div>
+     {{ block.settings.description | newline_to_br }}
+      
+      {% if block.settings.image_2 != blank %}
+           
+    	 <div style="text-align:center;">
+    		{{ block.settings.image_2 | img_url: '600x' | img_tag: block.settings.image_2.alt }}
+         </div>	
+    	{% endif %}
+      
+      
+      
+      {%if block.settings.cta_url != blank %}<a href="{{block.settings.cta_url}}">{{block.settings.cta}} <span class="hhicon-right-open-big"></span></a>{% endif %}
+    
+    	
+    
+    
+    
+    </div>
+  </div>
+{% endfor %}
+
+
+</div>
+
+{% schema %}
+ {
+  "name": "Product features",
+  "max_blocks": 2,
+  "class": "product-features",
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Product feature",
+      "settings": [
+		{
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image"
+        },
+		{
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "This is a heading for a Product feature block."
+        },
+		 {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Sub Title",
+		  "default": "<p>Subtitle</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Curabitur blandit tempus porttitor. Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus."
+        },
+		{
+          "type": "text",
+          "id": "cta",
+          "label": "Call to Action"
+        },
+    	{
+          "type": "text",
+          "id": "cta_url",
+          "label": "Call to Action URL (where it links to)"
+        }
+        
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product features",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,201 @@
+<!-- /sections/footer.liquid -->
+
+<footer class="site-footer" role="contentinfo"  data-section-id="{{ section.id }}"  data-section-type="footer">
+  <div class="grid--full wrapper">
+    
+
+    {% for block in section.blocks %}  
+      {% case block.type %}
+
+      {% when 'logo' %}
+      <div class="grid__item large--one-quarter medium-down--one-whole" {{ block.shopify_attributes }}>
+        <a href="{{ shop.url }}" itemprop="url" class="footer-logo">
+          {% if block.settings.image != blank %}
+          <img style="width:{{ block.settings.logo_width | remove: 'px' | append: 'px' }};" src="{{ block.settings.image | img_url: '500x' }}" alt="{{ shop.name }}" itemprop="logo">
+          {% else %}
+          <style> .footer-logo svg {width:{{ block.settings.logo_width | remove: 'px' | append: 'px' }};}</style>
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg-filled' }}
+          {% endif %}
+        </a>
+        {% if block.settings.show_social_links %}
+          {% include 'footer-social' %}
+        {% endif %}
+        {% if block.settings.show_payment_icons %}
+          {% include 'footer-payment' %}
+        {% endif %}
+      </div>
+
+        {% when 'link' %}
+        <div class="grid__item large--one-quarter medium-down--one-half" {{ block.shopify_attributes }}>
+          <div class="grid--full">
+            <div class="grid__item large--one-whole medium-down--one-whole">
+              <h3>{{linklists[block.settings.foot-menu].title}}</h3>
+              <ul class="footer-linklist">
+              {% for link in linklists[block.settings.foot-menu].links %} 
+              <li><a class="footer-link" href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+              </ul>
+            </div>
+          </div>                 
+        </div>
+
+        {% when 'blog' %}
+        <div class="grid__item large--one-quarter medium-down--one-half" {{ block.shopify_attributes }}>      
+          {% assign article = blogs[block.settings.blog_widget_select].articles.first %}
+          <a class="article-title" href="{{ article.url }}" title="{{ article.title }}"> {{ article.title }}</a>
+          {% if article.excerpt.size > 0 %}
+          <p class="article-excerpt">{{ article.excerpt | link_to: article.url }}</p>
+          {% else %}
+          <p class="article-excerpt">{{ article.content | strip_html | truncatewords: 12 | link_to: article.url }}</p> 
+          {% endif %}    
+        </div>
+
+        {% when 'newsletter' %}
+        <div class="grid__item large--one-third medium-down--one-whole" {{ block.shopify_attributes }}>
+        <h5>{{ block.settings.newsletter_title }}</h5>
+        {% include 'footer-newsletter' %}
+          <br>
+          {% if block.settings.show_social_links %}
+            {% include 'footer-social' %}
+          {% endif %}
+          {% if block.settings.show_payment_icons %}
+            {% include 'footer-payment' %}
+          {% endif %}
+          
+          <div style="margin-top: 20px; display: flex;">
+            <img style="margin-left: 20px;" src="{{ 'ssl-badge.png' | file_img_url: '120x' }}"/>
+          </div>          
+        </div>
+        
+
+        {% when 'text' %}
+        <div class="grid__item large--one-quarter medium-down--one-whole footer-text" {{ block.shopify_attributes }}>
+          <div>{{block.settings.footer_text}}</div>
+        </div>
+
+      {% endcase %} 
+    {% endfor %}
+  </div>
+
+  <div class="grid--full wrapper large--text-center medium--text-left">
+    {% include 'footer-copyright' %}
+  </div>
+  <script>
+
+    (function () {
+
+        var clickRe = /(?:\d+FOF\d+)/i;
+
+        var match = clickRe.exec(window.location.href);
+
+        if (match && match.length > 0) window.localStorage.setItem('sid', match[0]);
+
+    })();
+
+  </script>
+
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link list",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "foot-menu",
+          "label": "Link list",
+          "default": "footer"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "footer_text",
+          "label": "Text",
+          "default": "<p>Leave your customers with a final message about your brand in this rich text block.</p>"
+        }
+      ]
+    },
+    {
+      "type": "blog",
+      "name": "Blog",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "blog",
+          "id": "blog_widget_select",
+          "label": "Choose blog to show recent article excerpts"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "newsletter_title",
+          "label": "Heading"
+        },
+		{
+          "type": "checkbox",
+          "id": "show_social_links",
+          "label": "Show social icons",
+          "info":"Edit your social settings and accounts in General settings",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_payment_icons",
+          "label": "Show payment icons",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "logo_width",
+          "label": "Logo width",
+          "info": "Defined in pixels. Do not add the 'px' unit.",
+          "default":"200"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_links",
+          "label": "Show social icons",
+          "info":"Edit your social settings and accounts in General settings",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_payment_icons",
+          "label": "Show payment icons",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

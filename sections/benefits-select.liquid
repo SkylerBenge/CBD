@@ -1,0 +1,148 @@
+{% for block in section.blocks %}
+{% if product.handle == block.settings.product_to_match %}
+
+<div class="pdp-features">
+  <h2 class="title h1">{{block.settings.features_title}}</h2>
+    <hr>
+  <div class="wrapper">
+    <div class="pdp-feature">
+      {{ block.settings.image_1 | img_url: '100x' | img_tag: block.settings.image_1.alt }}
+      <h3>{{block.settings.features_col1_title}}</h3>
+      {{block.settings.features_col1_text}}
+      <br />
+      <a href="{{block.settings.cta_url}}">{{block.settings.cta}} <span class="hhicon-right-open-big"></span></a>
+    </div>
+    <div class="pdp-feature">
+      {{ block.settings.image_2 | img_url: '100x' | img_tag: block.settings.image_2.alt }}
+      <h3>{{block.settings.features_col2_title}}</h3>
+      {{block.settings.features_col2_text}}
+      <br />
+      <a href="{{block.settings.cta2_url}}">{{block.settings.cta2}} <span class="hhicon-right-open-big"></span></a>
+
+    </div>
+    <div class="pdp-feature">
+      {{ block.settings.image_3 | img_url: '100x' | img_tag: block.settings.image_3.alt }}
+      <h3>{{block.settings.features_col3_title}}</h3>
+      {{block.settings.features_col3_text}}
+      <br />
+       <a href="{{block.settings.cta3_url}}">{{block.settings.cta3}} <span class="hhicon-right-open-big"></span></a>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% schema %}
+  {
+    "name": "Select Benefits",
+ 	"max_blocks": 2,
+ 	"class": "select-benefits",
+    "blocks": [
+	{
+      "type": "text",
+      "name": "Product feature set",
+      "settings": [
+		{
+          "type":"text",
+          "id":"features_title",
+          "label": "Features Section Title",
+          "default": "Features"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image"
+        },
+        {
+          "type":"text",
+          "id":"features_col1_title",
+          "label": "Features Col 1 Title",
+          "default": "Perfect Clarity"
+        },
+        {
+          "type":"textarea",
+          "id":"features_col1_text",
+          "label": "Features Col 1 Text",
+          "default": "Relax. Focus. Exhale. Breathe freely without blowing your mind."
+        },
+		{
+          "type": "text",
+          "id": "cta",
+          "label": "Call to Action"
+        },
+		{
+          "type": "text",
+          "id": "cta_url",
+          "label": "Call to Action URL (where it links to)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image"
+        },
+        {
+          "type":"text",
+          "id":"features_col2_title",
+          "label": "Features Col 2 Title",
+          "default": "Pure Oils"
+        },
+        {
+          "type":"textarea",
+          "id":"features_col2_text",
+          "label": "Features Col 2 Text",
+          "default": "Quality oils expertly extracted from plants grown in live soil."
+        },
+		{
+          "type": "text",
+          "id": "cta2",
+          "label": "Call to Action"
+        },
+		{
+          "type": "text",
+          "id": "cta2_url",
+          "label": "Call to Action URL (where it links to)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image"
+        },
+        {
+          "type":"text",
+          "id":"features_col3_title",
+          "label": "Features Col 3 Title",
+          "default": "Award Winning"
+        },
+        {
+          "type":"textarea",
+          "id":"features_col3_text",
+          "label": "Features Col 3 Text",
+          "default": "Winner of the 2017 Dope Industry Award for best Concentrate Company."
+        },
+		{
+          "type": "text",
+          "id": "cta3",
+          "label": "Call to Action"
+        }, 
+		{
+          "type": "text",
+          "id": "cta3_url",
+          "label": "Call to Action URL (where it links to)"
+        }
+	]
+    }
+  	
+	], 
+  "presets": [
+    {
+      "name": "Select Benefits",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+  }
+{% endschema %}
+

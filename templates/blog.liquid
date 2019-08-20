@@ -1,0 +1,80 @@
+<!-- /templates/blog.liquid -->
+
+{% paginate blog.articles by 5 %}
+
+
+<div class="grid wrapper">
+  <div class="grid__item push--large--one-sixth large--two-thirds">
+    <div class = "grid">
+      <h1 class = "section-title text-center">
+        {{ blog.title | link_to: blog.url }}
+
+     </h1>
+
+     <div class = "grid__item push--large--one-eighth large--three-quarters medium-down--one-whole blog-tag-wrapper">
+
+        {% comment %}
+          Blog tags
+          {% endcomment %}
+          {% if blog.all_tags.size > 0 %}
+          <ul class="inline-list text-center">
+            {% for tag in blog.all_tags limit: 15 %}
+            {% if current_tags contains tag %}
+            <li class = "blog-tag">{{ tag }}</li>
+            {% else %}
+            <li class = "blog-tag">{{ tag | link_to_tag: tag }}</li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+    {% comment %}
+      Loop through each article.
+      {% endcomment %}
+      <div class = "grid">
+        {% for article in blog.articles %}
+        <div class = "grid__item large--one-whole">
+          {% if article.image %}
+          <a href="{{ article.url }}"> <img class = "article-preview-image lazyload" data-src = "{{ article.image.src | img_url: 'master' }}" src = "{{ article.image.src | img_url: 'large' }}"></a>
+          {% endif %}
+          <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+          {% capture author %}{{ article.author }}{% endcapture %}
+          {% capture date %}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{% endcapture %}
+          <small class = "light-gray">{{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}</small>
+          <a href="{{ article.url }}">
+            <div class="rte">
+              {% if article.excerpt.size > 0 %}
+              {{ article.excerpt }}
+              {% else %}
+              <p>{{ article.excerpt_or_content | strip_html | truncatewords: 50 }}</p>
+              {% endif %}
+            </div>
+          </a>
+          <ul class="inline-list">
+            {% if blog.comments_enabled? and article.comments_count != 0%}
+            <li>
+              <a href="{{ article.url }}#Comments" class = "blog-comments-link">
+                <i class = "custom-icon-comment"></i>
+                {{ 'blogs.comments.comments_with_count' | t: count: article.comments_count }}
+              </a>
+            </li>
+            {% endif %}
+            {% include 'tags-article' %}
+          </ul>
+        </div>
+        {% unless forloop.last %}<hr>{% endunless %}
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+        <hr>
+        <div class="pagination">
+          {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endpaginate %}

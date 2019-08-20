@@ -1,0 +1,239 @@
+{% include 'bold-product' with product, hide_action: 'break', output: 'none' %}
+<!-- /sections/product-template.liquid -->
+
+{% comment %}
+Rich snippets
+{% endcomment %}
+<div itemscope itemtype="http://schema.org/Product"></div>
+<meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+<meta itemprop="image" content="{{ product.featured_image.src | img_url: 'grande' }}">
+
+{% comment %}
+Establish thumbnail grid
+{% endcomment %}
+{% assign thumbnailLength = product.images | size %}
+
+{% comment %}
+Hide if there are no variant images
+{% endcomment %}
+{% assign thumbnailColumns = 'grid__item large--hide medium-down--hide' %}
+{% if thumbnailLength == 1 %}
+  {% assign thumbnailColumns = 'grid__item large--hide medium-down--hide' %}
+{% elsif thumbnailLength == 2 %}
+  {% assign thumbnailColumns = 'grid__item one-half' %}
+{% elsif thumbnailLength == 3 %}
+  {% assign thumbnailColumns = 'grid__item one-third' %}
+{% elsif thumbnailLength > 3 %}
+  {% assign thumbnailColumns = 'grid__item one-quarter' %}
+{% endif %}
+
+{% comment %}
+Set main product image height
+{% endcomment %}
+<style>
+.productvarimg {
+  max-height:{{ section.settings.main_image_height | remove: 'px' | append: 'px' }} !important;
+}
+</style>
+
+{% comment %}
+Get first variant, or deep linked one
+{% endcomment %}
+{% assign current_variant = bold_selected_or_first_available_variant %}
+
+
+<div class="grid--full product-single wrapper product--{{section.id}}" data-section-type="product-template" data-section-id="{{section.id}}">
+  <div class = "grid__item">
+
+    <!-- Product Photos -->
+    <div class = "grid">
+      <div class="grid__item product-images large--{{ section.settings.product_image_width }} text-center">
+        <div class="product-single__photos" id="ProductPhoto">
+          <div class = "product-page-table">
+            <div class = "cell">
+              {% assign featured_image = current_variant.featured_image | default: product.featured_image %}
+              <div class="popup-gallery" >
+                <div class = "product-page-frame frame frame--{{section.id}}">
+                  <img src="{{ featured_image | img_url: '400x', scale:2 }}" data-mfp-src = "{{ featured_image.src | img_url: '1024x' }}" alt="{{ featured_image.alt | escape }}" class = "productvarimg lazyload featured-image featured-image--{{section.id}}" id="{{featured_image.id}}">
+                  {% assign featured_image_id = featured_image.id %}
+                  {% for image in product.images %}
+                    {% if image.id != featured_image_id %}
+                      <img src="{{ image.src | img_url: '400x', scale:2 }}" alt="{{ image.alt | escape }}" data-mfp-src ="{{ image.src | img_url: '1024x' }}" id="{{image.id}}" class = "hide productvarimg featured-image featured-image--{{section.id}}">
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Thumbnails -->
+        {% if product.images.size > 1 %}
+        {% if section.settings.product_image_width == 'one' %}
+          {% assign thumbs_width = 'large--one-third push--large--one-third medium-down--one-whole' %}
+        {% endif %}
+          <div class="product-single__thumbnails grid--full gallery" id="ProductThumbs">
+            <div class = "grid__item {{ thumbs_width }}">
+              <div class = "grid-uniform">
+                <div class="{{ thumbnailColumns }} thumbnail-wrapper active-thumbnail">
+                  <a href="{{ featured_image.src | img_url: '400x', scale:2 }}" class="product-single__thumbnail">
+                    <img data-id="{{featured_image.id}}" src="{{ featured_image.src | img_url: '180x', scale:2 }}" data-action="show-product-image" alt="{{ featured_image.alt | escape }}" class = "alt-image">
+                  </a>
+                </div>
+                {% for image in product.images %}
+                  {% if image.id != featured_image.id %}
+                    <div class="{{ thumbnailColumns }} thumbnail-wrapper">
+                      <a href="{{ image.src | img_url: '400x', scale:2 }}" class="product-single__thumbnail">
+                        <img data-id="{{image.id}}" src="{{ image.src | img_url: '180x', scale:2 }}" data-action="show-product-image" alt="{{ image.alt | escape }}" class = "alt-image">
+                      </a>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <!-- Product Description -->
+      <div class="grid__item product-text large--{{ section.settings.product_image_width }} text-center">
+        <div class="product-description-wrapper">
+          <h1 class="product-title" itemprop="name"><b>{{ product.title }}</b></h1>
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+            <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+            <!-- Product Form Snippet -->
+            {% include 'product-form' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if section.settings.product_related_enable %}
+  {% include 'related-products' %}
+{% endif %}  
+  
+
+<script type="application/json" id="ProductJson-{{ section.id }}">
+  {% include 'bold-product', output: 'json' %}
+</script>
+
+<script>
+window.product = {% include 'bold-product', output: 'json' %};
+window.product.money_format = "{{ shop.money_format }}";
+window.product.add_label = {% if product.options.size == 1 %}true{% else %}false{% endif %};
+window.product.label = "{{ product.options.first | escape }}";
+window.selectCallback = PaloAlto.onVariantSelected;
+</script>
+
+{% schema %}
+{
+  "name": "Product pages",
+  "settings": [
+    {
+      "type": "select",
+      "label": "Product image width",
+      "id": "product_image_width",
+      "options": [
+        {
+          "value": "one-half",
+          "label": "50%"
+        },
+        {
+          "value": "one",
+          "label": "100%"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "main_image_height",
+      "label": "Max image height (desktop only)",
+      "default": "300"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_social_sharing_products",
+      "label": "Show social sharing buttons",
+      "default": true
+    },
+  	{
+      "type": "header",
+      "content": "Related products"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_related_enable",
+      "label": "Enable related products"
+    },
+  	{
+      "type": "header",
+      "content": "Product Features"
+    },
+  	{
+  	  "type":"text",
+      "id":"features_title",
+  	  "label": "Features Section Title",
+  	  "default": "Features"
+  	},
+  	{
+  	  "type":"text",
+      "id":"features_col1_icon",
+  	  "label": "Features Col 1 Icon Code",
+  	  "default": "clarity-01"
+  	},
+  	{
+  	  "type":"text",
+      "id":"features_col1_title",
+  	  "label": "Features Col 1 Title",
+  	  "default": "Perfect Clarity"
+  	},
+  	{
+  	  "type":"textarea",
+      "id":"features_col1_text",
+  	  "label": "Features Col 1 Text",
+  	  "default": "Relax. Focus. Exhale. Breathe freely without blowing your mind."
+  	},
+  	{
+  	  "type":"text",
+      "id":"features_col2_icon",
+  	  "label": "Features Col 2 Icon Code",
+  	  "default": "oil"
+  	},
+  	{
+  	  "type":"text",
+      "id":"features_col2_title",
+  	  "label": "Features Col 2 Title",
+  	  "default": "Pure Oils"
+  	},
+  	{
+  	  "type":"textarea",
+      "id":"features_col2_text",
+  	  "label": "Features Col 2 Text",
+  	  "default": "Quality oils expertly extracted from plants grown in live soil."
+  	},
+  	{
+  	  "type":"text",
+      "id":"features_col3_icon",
+  	  "label": "Features Col 3 Icon Code",
+  	  "default": "ribbon-01"
+  	},
+  	{
+  	  "type":"text",
+      "id":"features_col3_title",
+  	  "label": "Features Col 3 Title",
+  	  "default": "Award Winning"
+  	},
+  	{
+  	  "type":"textarea",
+      "id":"features_col3_text",
+  	  "label": "Features Col 3 Text",
+  	  "default": "Winner of the 2017 Dope Industry Award for best Concentrate Company."
+  	}
+  	
+  	
+  ]
+}
+{% endschema %} 

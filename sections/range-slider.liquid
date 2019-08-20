@@ -1,0 +1,118 @@
+{% if section.blocks.size > 0 %}
+  <div class="owl-carousel" style="background-color: {{ block.settings.background-color }}">
+  {% for block in section.blocks %}
+    {% if block.settings.slide_btn_link != blank %}
+    <a class="btn call-to-action slider-btn" href="{{ block.settings.slide_btn_link }}">
+    {% endif %}
+    <div class="item" style="position:relative;"> 
+      <h1 style="color: {{ section.settings.text-color }}">{{ block.settings.slide_heading }}</h1>
+      <div style="color: {{ section.settings.text-color }}">{{ block.settings.slide_subheading }}</div>
+      <img class="overlay" src="{{ block.settings.image | img_url: '2048x'}}"/>
+    </div>
+    {% if block.settings.slide_btn_link != blank %}
+    </a>
+    {% endif %}
+  {% endfor %}
+  </div>
+{% endif %}
+  
+<div class="slidercontainer">
+  <input type="range" min="0" max="79" value="40" class="slider">
+</div>
+
+<script>
+$(document).ready(function() {
+  var owl = $(".owl-carousel"),
+  inputType =$("input[type=range]");
+  owl.owlCarousel({
+    center: true,
+    startPosition: 2,
+    responsiveClass:true,  
+    responsive : {
+      0 : {
+        items: 1
+      },
+      768 : {
+        items: 2
+      }
+    }    
+  });
+  owl.on('changed.owl.carousel', function(event) {
+    inputType.val(event.item.index*20);   
+  });
+
+  $("input").on("change", function(e) {
+    e.preventDefault();
+    var rounded = Math.round(inputType.val() / 20);
+    
+    $('.owl-carousel').trigger('to.owl.carousel', [rounded]);
+    inputType.val(rounded*20);   
+  });
+});
+</script>
+{% schema %}
+{
+  "name": "Range Slider",
+  "class":"slideshow",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Setting"
+    },
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text-color",
+      "label": "Text Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1024px width recommended"
+        },
+        {
+          "type": "text",
+          "id": "slide_heading",
+          "label": "Heading",
+          "default": "Social CBD"
+        },
+        {
+          "type": "html",
+          "id": "slide_subheading",
+          "label": "Subheading",
+          "default": "Cras justo odio, dapibus ac facilisis in, egestas eget quam."
+        },
+        {
+          "type": "url",
+          "id": "slide_btn_link",
+          "label": "Button URL"
+        }
+	  ]
+	}
+  ],
+  "presets": [
+    {
+      "name": "Range Slider",
+      "category": "Slider",
+      "blocks": [
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

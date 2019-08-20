@@ -1,0 +1,32 @@
+<!-- /sections/rich-text.liquid -->
+
+<!-- Video Section-->
+<div  data-section-id="{{ section.id }}" data-section-type="rich-text" class = "featured-content-section no-image" id="featured-content">
+  <div class = "grid--full wrapper featured-content-no-image text-center">
+    <div class = "grid__item large--three-quarters push--large--one-eighth medium-down--one-whole">
+         <span>{{ section.settings.text }}</span>
+        <span class="featured-content-spacer-line"></span>  
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+    "name": "Rich text",
+    "class":"rich-text",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich text",
+        "category": "Text"
+      }
+    ]
+}
+{% endschema %}

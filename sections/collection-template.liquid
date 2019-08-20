@@ -1,0 +1,218 @@
+<!-- /sections/collection-template.liquid -->
+
+{% paginate collection.products by 30 %}
+{% comment %}
+If there is a collection image, the split header is used.
+Else, the plain, centered text header is used.
+{% endcomment %}
+
+<div data-section-type="collection-template" data-section-id="{{ section.id }}">
+
+{% comment %}
+Collection header
+
+{% if collection.image %}
+
+  <div class = "split-collection split-collection-image">
+    <header class="collection-header grid">
+      <div class = "grid__item large--one-half medium-down--text-center medium-down--one-whole split-collection-parent">
+        <div class = "split-collection-text">
+          <h1 class="section-header__title collection-title">{{ collection.title }}</h1>
+          <div class = "spacer-line"></div>
+          <div class="rte rte--header collection-description">{{ collection.description }}</div>
+        </div>
+      </div>
+      <div class = "grid__item large--one-half medium-down--one-whole split-collection-image lazyload {{ section.settings.collection_image_height }}" style = "background: url({{ collection.image.src | img_url: 'master' }}) no-repeat center center; background-size: cover;" data-bg="{{ collection.image.src | img_url: 'master' }}">
+      </div>
+    </header>
+  </div>
+
+{% else %}
+{% endif %}
+{% endcomment %}
+  {% if collection.description != blank %}
+    <header class="collection-header wrapper grid-uniform collection-header--no-image">
+      <div class="grid__item large--one-whole text-center">
+        <h1 class="section-header__title collection-title">{{ collection.title }}</h1>
+        <div class="rte rte--header collection-description">
+          {{ collection.description }}
+        </div>
+        <hr>
+      </div>
+    </header>
+  {% else %}
+    <header class="collection-header wrapper collection-header--no-image">
+      <div class="large--one-whole text-center">
+        {% if collection.handle == 'all' %}
+          <h1 class="section-header__title collection-title">{{ 'products.general.catalog' | t }}</h1>
+        {% else %}
+          <h1 class="section-header__title collection-title">{{ collection.title }}</h1>
+        {% endif %}
+        <hr>
+      </div>
+    </header>
+  {% endif %}
+
+<div id = "collection-sorting-trigger" class = "{% if section.settings.enable_collection_sorting %}sort-me{% endif %}">
+{% if section.settings.enable_collection_sorting %}
+
+    <div class = "wrapper">
+      <div class="text-center" id = "collection-sorting">
+    
+<div class="form-horizontal">
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+  <label for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+  <div class = "selector-wrapper">
+            <select name="SortBy" id="SortBy" class="filters-toolbar__input filters-toolbar__input--sort hidden">
+              {% if sort_by == collection.default_sort_by %}
+                {% if collection.default_sort_by != 'manual' %}
+                  <option value="manual"{% if sort_by == "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'best-selling' %}
+                  <option value="best-selling"{% if sort_by == "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'title-ascending' %}
+                  <option value="title-ascending"{% if sort_by == "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'title-descending' %}
+                  <option value="title-descending"{% if sort_by == "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'price-ascending' %}
+                  <option value="price-ascending"{% if sort_by == "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'price-descending' %}
+                  <option value="price-descending"{% if sort_by == "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'created-descending' %}
+                  <option value="created-descending"{% if sort_by == "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+                {% endif %}
+                {% if collection.default_sort_by != 'created-ascending' %}
+                  <option value="created-ascending"{% if sort_by == "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+                {% endif %}
+              {% else %}
+                <option value="manual"{% if sort_by == "manual" %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+                <option value="best-selling"{% if sort_by == "best-selling" %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+                <option value="title-ascending"{% if sort_by == "title-ascending"  %}selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+                <option value="title-descending"{% if sort_by == "title-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+                <option value="price-ascending"{% if sort_by == "price-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+                <option value="price-descending"{% if sort_by == "price-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+                <option value="created-descending"{% if sort_by == "created-descending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+                <option value="created-ascending"{% if sort_by == "created-ascending" %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+              {% endif %}
+            </select>
+            <input class="collection-header__default-sort" type="hidden" value="{{ collection.default_sort_by }}">
+          </div>
+        </div> 
+
+
+        <div class="browse-by form-horizontal">
+<label>{{ 'collections.sorting.browse_by' | t }}</label>
+  <div class = "selector-wrapper single-option-selector">
+          <div class="filters-toolbar__item">
+            <select class="filters-toolbar__input filters-toolbar__input--filter hidden" name="SortTags" id="SortTags">
+              {% if current_tags %}
+                {% if collection.handle %}
+                  <option value="/collections/{{ collection.handle }}">{{ 'collections.sorting.browse_all' | t }}</option>
+                {% elsif collection.current_type %}
+                  <option value="{{ collection.current_type | url_for_type }}">{{ 'collections.sorting.browse_all' | t }}</option>
+                {% elsif collection.current_vendor %}
+                  <option value="{{ collection.current_vendor | url_for_vendor }}">{{ 'collections.filters.all_tags' | t }}</option>
+                {% endif %}
+              {% else %}
+                {% if current_tags contains tag %}
+                  <option value="">{{ 'collections.filters.all_tags' | t }}</option>
+                {% else %}
+                  <option value="">{{ 'collections.sorting.browse_all' | t }}</option>
+                {% endif %}
+              {% endif %}
+              {% for tag in collection.all_tags %}
+                <option value="/collections/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handleize }}"{% if current_tags contains tag %} selected="selected"{% endif %}>{{ tag }}</option>
+              {% endfor %}
+            </select>
+          </div>
+</div>
+        </div>
+      </div>
+    </div>
+{% endif %}
+</div>
+
+  {% assign collection_count = collection.all_products_count %}
+  <div class = "grid--full wrapper">
+    <div class = "grid__item">
+      <div class = "grid--full flex-grid">
+        {% if collection_count > 0 %}
+          {% for product in collection.products %}
+			{% include 'bold-product' with product, hide_action: 'skip' %}
+            {% include 'product-grid-item', collection_count: ‘collection.all_products_count’ %}
+          {% endfor %}
+          {% elsif collection.handle == 'all' and collection_count == 0 %}
+          {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+          {% include 'onboarding-empty-collection' %}
+          {% elsif collection.handle != 'all' and collection_count == 0 %}
+          <div class="grid__item text-center">
+            <h2 class="text-center">{{ 'collections.general.no_matches' | t }}</h2>
+            <a href="/" class="btn" >{{ 'general.404.button_text' | t }}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  {% if paginate.pages > 1 %}
+    <div class="pagination">
+      {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+    </div>
+  {% endif %}
+{% endpaginate %}
+
+</div>
+
+{% if collection.handle contains 'gel-caps' %}
+
+{% elsif collection.handle contains 'montel' %}
+
+{% elsif collection.handle contains 'muscle-rub' %}
+
+{% elsif collection.handle contains 'patch' %}
+
+{% elsif collection.handle contains 'pets' %}
+<img alt="Traffic Roots Audience Pixel" src="//service.trafficroots.com/audience/e8061076f3" style="display:none;">
+
+{% elsif collection.handle contains 'drops' %}
+
+{% elsif collection.handle contains 'cartridges' %}
+
+{% endif %}
+{% schema %}
+{
+  "name": "Collection pages",
+  "settings": [
+    {
+      "type": "checkbox",
+      "label": "Enable collection sorting",
+      "id": "enable_collection_sorting"
+    },
+    {
+      "type": "select",
+      "id": "collection_image_height",
+      "label": "Collection image height",
+      "default": "short-height-image",
+      "options": [
+        {
+          "value": "tall-height-image",
+          "label": "Tall"
+        },
+        {
+          "value": "medium-height-image",
+          "label": "Medium"
+        },
+        {
+          "value": "short-height-image",
+          "label": "Short"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

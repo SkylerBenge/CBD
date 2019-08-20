@@ -1,0 +1,74 @@
+<!-- /sections/rich-text-with-media.liquid -->
+
+{% if section.settings.image == blank %}
+  {% assign no_image = "no-image" %}
+{% endif %}
+
+<!-- Video section-->
+<div data-section-id="{{ section.id }}" data-section-type="rich-text-with-media" class = "featured-content-section has-image" id="featured-content">
+  <div class = "grid--full">
+    <div class = "grid__item large--nine-tenths medium-down--one-whole featured-content-overlay">
+    <div class = "featured-content-padding"></div>
+    <div class="grid--full grid--table featured-content-wrapper">
+
+      <!-- Left col -->
+      <div class="grid__item medium-down--one-whole video-image-parent">
+        <div class = "video-image-wrapper {{ no_image }}">
+          {% unless section.settings.image == blank %}
+            <img class = "lazyload video-image" src="{{ section.settings.image | img_url: '1024x' }}">
+          {% else %}
+            <span class = "video-image">{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg-filled' }}</span>
+          {% endunless %}
+
+          {% unless section.settings.video_url == blank %}
+            <a class="play-button animated fadeInLeftBig _1" href="{{ section.settings.video_url }}">
+              <span class = "filled-circle custom-icon-filled-circle"></span>
+              <span class = "stroke-circle custom-icon-stroke-circle"></span>
+              <span class = "triangle custom-icon-triangle"></span>
+            </a>
+          {% endunless %}
+        </div>
+      </div>
+
+      <!-- Right col -->
+      <div class="grid__item medium-down--one-whole video-text-col">
+        <div class="video-wrapper">
+            <span>{{ section.settings.text }}</span>         
+            <span class="featured-content-spacer-line"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich text with media",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Video image"
+    },
+    {
+      "id": "video_url",
+      "type": "text",
+      "label": "Video URL",
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text with media",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+  <!-- /templates/list-collections.liquid -->
+
+{% include 'grid-logic' %}
+
+<!-- Page Header -->
+<header class="collection-header grid-uniform wrapper" id = "ListCollections">
+  <div class="grid__item large--one-whole text-center">
+    <h1 class="section-header__title collection-title">{{ 'collections.general.list_collections' | t }}</h1>
+    <span class="spacer-line"></span>
+  </div>
+</header>
+
+<!-- Echo each Collection Title and Image -->
+<div class="grid--full wrapper">
+  {% for collection in collections %}
+   {% unless collection.handle == 'frontpage' %}
+    <div class="grid__item {{ grid_item_width }} product-item-parent text-center">
+        <a href="{{ collection.url }}" class="grid__image product-image">
+          <div class = "table">
+            <div class = "cell">
+              {% if collection.image %}
+                  <img src="{{ collection | img_url: 'medium' }}" alt="{{ collection.image.alt }}" />
+              {% else %}
+                  <img src="{{ collection.products.first | img_url: 'medium' }}" alt="{{ collection.title | escape  }}" />
+              {% endif %}
+            </div>
+          </div>
+        </a>      
+        <h3>{{ collection.title }}</h3>
+    </div>
+    {% endunless %}
+  {% endfor %}
+</div>

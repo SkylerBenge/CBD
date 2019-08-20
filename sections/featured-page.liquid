@@ -1,0 +1,76 @@
+<!-- /sections/featured-page.liquid -->
+{% assign page = pages[section.settings.link_page] %}
+<div data-section-id="{{ section.id }}" data-section-type="featured-page" class="featured-page {{section.settings.layout}}" id="featured-page">
+  <div class="featured-heading">
+    <div class="num">{{section.settings.number}}</div>
+    <div class="large-title">{{section.settings.title}}</div>
+    <div class="small-title">{{section.settings.subtitle }}</div>
+  </div>
+  <div class="featured-text">
+    <div class="text-wrap">
+      <div class="text-center"><span class="hhicon-{{section.settings.icon}}"></span></div>
+      {{ section.settings.content }}
+      <a href="{{page.url}}" >Read More <span class="hhicon-right-open-big"></span></a>
+    </div>
+  </div>
+    
+</div>
+
+{% schema %}
+{
+  "name": "Featured Page",
+  "settings": [
+  	{
+      "type":      "radio",
+        "id":        "layout",
+        "label":     "Layout",
+        "options": [
+          { "value": "text-is-right", "label": "Text Right / heading left" },
+          { "value": "text-is-left", "label": "Text Left / heading right" }
+        ],
+        "default":   "text-is-right"
+    },
+    {
+      "type": "text",
+      "id": "number",
+      "label": "Number",
+      "default": "01"
+    },
+	{
+      "type": "text",
+      "id": "title",
+      "label": "Large Title",
+      "default": "Why?"
+    },
+	{
+      "type": "text",
+      "id": "subtitle",
+      "label": "Smaller Title",
+      "default": "CBD"
+    },
+	{
+      "type": "text",
+      "id": "icon",
+      "label": "Icon Code",
+      "default": "legal"
+    },
+	{
+      "type": "richtext",
+      "id": "content",
+      "label": "Teaser Text",
+	  "default": "<p>Put some teaser / explanatory text here.</p>"
+    },
+    {
+      "type": "page",
+      "id": "link_page",
+      "label": "Page to link to"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Page",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}

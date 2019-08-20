@@ -1,0 +1,72 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-collections" class = "featured-collection-list-section" id="featured-collection" >
+  <div class="grid--full featured-collection wrapper flex-grid">
+    {% for block in section.blocks %}
+    {% assign collection = collections[block.settings.collection] %}
+    <div class="grid__item text-center small--one-whole medium--one-half large--one-third">
+      <div>
+        {% if collection.image != blank %}
+        <a class="grid__image" href="{{ collection.url }}">
+          <div class="table">
+      		<div class="cell">
+       		  <img src="{{ collection.image | img_url: 'grande' }}">
+            </div>
+          </div>
+        </a>
+        {% else %}
+        <div class="onboard">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+        {% endif %}
+      </div>
+	  
+      <div class="custom-image-text-block">
+        {% if block.settings.heading != blank %}
+        <h3>{{ block.settings.heading | escape }}</h3>
+        {% endif %}
+        {% if block.settings.button != blank %}
+        <a href="{{ collection.url }}" style="width: auto" class="btn">
+          {{ block.settings.button | escape }}
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Featured list",
+	"max_blocks": 9,
+    "class": "index-section",
+	"blocks":[
+	  {
+		"type":"collection",
+		"name":"Collection",
+		"settings":[
+			{
+				"type": "collection",
+				"id": "collection",
+				"label": "College"
+			},
+			{
+				"type": "text",
+				"id": "heading",
+				"label": "Heading",
+				"default": "Image with text"
+			},
+			{
+				"type": "text", 
+				"id": "button",
+				"label": "Button text"
+			}
+		 ]
+	  }
+    ],
+    "presets": [
+      {
+        "name": "Featured Collection List",
+        "category": "Collection"
+      }
+    ]
+  }
+{% endschema %}

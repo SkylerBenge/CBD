@@ -1,0 +1,70 @@
+<style>
+.site-header__logo img{ width:{{ section.settings.logo_max_width }}px;}
+</style>
+
+{% include 'nav-drawer' %}
+{% include 'cart-drawer' %}
+
+<header class="site-header is-moved-by-drawer {{section.settings.header_position}}" role="banner" data-section-id="{{ section.id }}"  data-section-type="header" data-position="{{section.settings.header_position}}">
+	{% if settings.top_bar_text != blank %}
+		{% include 'top-bar' %}
+	{% endif %}
+	<div class="wrapper {% if settings.top_bar_text != blank %}site-header-wrapper{% endif %}">
+		<div class="grid--full grid--table">
+		{% include 'site-logo' %}
+		{% include 'site-nav' %}
+		</div>
+	</div>
+  <div class="space-maker"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.9/sweetalert2.min.css" />  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.0.9/sweetalert2.all.min.js"></script>
+	<meta name="google-site-verification" content="svbR5QpaicXZ5j7LA4kUQcto84iKZNlb8Mp7jUFnob4" />
+{% schema %}
+{
+  "name": "Header",
+  "class": "header-wrapper",
+  "settings": [
+    {
+      "type": "select",
+      "id": "header_position",
+      "label": "Position",
+      "default": "fixed",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "Stick to top on scroll"
+        },
+        {
+          "value": "relative",
+          "label": "Hide on scroll"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom logo"
+    },
+    {
+      "type": "link_list",
+      "id": "main-menu",
+      "label": "Link list",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "logo_max_width",
+      "label": "Logo width",
+      "default": "100",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_name",
+      "label": "Show shop name"
+    }
+  ]
+}
+{% endschema %}

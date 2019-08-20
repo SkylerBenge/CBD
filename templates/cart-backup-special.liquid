@@ -1,0 +1,104 @@
+ <!-- /sections/cart.liquid -->
+
+<div class = "grid--full wrapper">
+  <div class = "grid__item large--three-quarters push--large--one-eighth">
+    {% if cart.item_count > 0 %}
+      <h1 class = "cart-title">{{ 'cart.general.title' | t }}</h1>
+      <form action="/cart" method="post" novalidate class="cart table-wrap">
+        <table class="cart-table full table--responsive">
+          <thead class="cart__header-labels">
+            <th colspan="1"></th>
+            <th colspan="2" class="text-left">{{ 'cart.label.product' | t }}</th>
+            <th colspan="1" class="text-center">{{ 'cart.label.price' | t }}</th>
+            <th class="text-center">{{ 'cart.label.quantity' | t }}</th>
+            <th class="text-right">{{ 'cart.label.total' | t }}</th>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+              <tr class="cart__row table__section">
+                <td>
+                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove">
+                    <i class = "custom-icon-x"></i>
+                  </a>
+                </td>
+                <td data-label="{{ 'customer.order.product' | t }}" class = "product-name-label">
+                  <a href="{{ item.url | within: collections.all }}" class="cart__image">
+           
+                    <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+                  </a>
+                </td>
+                <td>
+                  <a href="{{ item.url }}" class="h3">
+                    {{ item.product.title }}
+                  </a>
+
+                  {% comment %}
+                    Optional, loop through custom product line items if available
+
+                    For more info on line item properties, visit:
+                      - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
+                  {% endcomment %}
+                  {% assign property_size = item.properties | size %}
+                  {% if property_size > 0 %}
+                    {% for p in item.properties %}
+                      {% unless p.last == blank or p.first == "subscription_id" or p.first == "shipping_interval_frequency" or p.first == "shipping_interval_unit_type" %}
+                        {{ p.first }}:
+
+                        {% comment %}
+                          Check if there was an uploaded file associated
+                        {% endcomment %}
+                        {% if p.last contains '/uploads/' %}
+                          <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                        {% else %}
+                          {{ p.last }}
+                        {% endif %}
+
+                        <br>
+                      {% endunless %}
+                    {% endfor %}
+                  {% endif %}
+                </td>
+                <td data-label="{{ 'cart.label.price' | t }}">
+                  <span class="h3 price text-center">
+                    {{ item.price | money }}
+                  </span>
+                </td>
+                <td data-label="{{ 'cart.label.quantity' | t }}">
+                  <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" onchange="location.reload()" >
+                </td>
+                <td data-label="{{ 'cart.label.total' | t }}" class="text-right">
+                  <span class="h3 price">
+                    {{ item.line_price | money }}
+                  </span>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="cart__row grid">
+            <div class="grid__item large--one-half medium--down-one-whole">
+              <textarea name="note" class="input-full" placeholder = "{{ 'cart.general.note' | t }}" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+            </div>
+          <div class="grid__item large--text-right large--one-half medium--down-one-whole">
+            <h3 class="cart__subtotal price">{{ 'cart.general.subtotal' | t }} <span>{{ cart.total_price | money }}</span></h3>
+            <small class = "shipping-note light-gray">{{ 'cart.general.shipping_at_checkout' | t }}</small>
+            <input type="submit" name="update" class="btn--secondary update-cart cart__update" value="{{ 'cart.general.update' | t }}">
+            <input type="submit" name="checkout" class="cart__checkout btn" value="{{ 'cart.general.checkout' | t }}">
+            {% if additional_checkout_buttons %}
+                <div class="additional-checkout-buttons">
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+            {% endif %}          
+          </div>          
+        </div>
+      </form>
+    {% else %}
+    {% comment %}
+      The cart is empty
+    {% endcomment %}
+    <h2>{{ 'cart.general.title' | t }}</h2>
+    <p>{{ 'cart.general.empty' | t }}</p>
+    <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,113 @@
+{% for block in section.blocks %}
+{% if product.handle == block.settings.product_to_match %}
+
+<div class="pdp-features">
+  <h3 class="title">{{block.settings.features_title}}</h3>
+    <hr>
+  <div class="wrapper">
+    <div class="pdp-feature">
+      <span style="font-size:3em;" class="hhicon-{{block.settings.features_col1_icon}}"></span>
+      <h3>{{block.settings.features_col1_title}}</h3>
+      {{block.settings.features_col1_text}}
+    </div>
+    <div class="pdp-feature">
+      <span style="font-size:3em;" class="hhicon-{{block.settings.features_col2_icon}}"></span>
+      <h3>{{block.settings.features_col2_title}}</h3>
+      {{block.settings.features_col2_text}}
+    </div>
+    <div class="pdp-feature">
+      <span style="font-size:3em;" class="hhicon-{{block.settings.features_col3_icon}}"></span>
+      <h3>{{block.settings.features_col3_title}}</h3>
+      {{block.settings.features_col3_text}}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% schema %}
+  {
+    "name": "Product Features",
+    "class": "product-features",
+    "blocks": [
+	{
+      "type": "text",
+      "name": "Product feature set",
+      "settings": [
+		{
+          "type": "product",
+          "label": "Product to match",
+          "id": "product_to_match",
+		  "info": "Select the product that these features should appear on"
+        },
+		{
+          "type":"text",
+          "id":"features_title",
+          "label": "Features Section Title",
+          "default": "Features"
+        },
+        {
+          "type":"text",
+          "id":"features_col1_icon",
+          "label": "Features Col 1 Icon Code",
+          "default": "clarity-01"
+        },
+        {
+          "type":"text",
+          "id":"features_col1_title",
+          "label": "Features Col 1 Title",
+          "default": "Perfect Clarity"
+        },
+        {
+          "type":"textarea",
+          "id":"features_col1_text",
+          "label": "Features Col 1 Text",
+          "default": "Relax. Focus. Exhale. Breathe freely without blowing your mind."
+        },
+        {
+          "type":"text",
+          "id":"features_col2_icon",
+          "label": "Features Col 2 Icon Code",
+          "default": "oil"
+        },
+        {
+          "type":"text",
+          "id":"features_col2_title",
+          "label": "Features Col 2 Title",
+          "default": "Pure Oils"
+        },
+        {
+          "type":"textarea",
+          "id":"features_col2_text",
+          "label": "Features Col 2 Text",
+          "default": "Quality oils expertly extracted from plants grown in live soil."
+        },
+        {
+          "type":"text",
+          "id":"features_col3_icon",
+          "label": "Features Col 3 Icon Code",
+          "default": "ribbon-01"
+        },
+        {
+          "type":"text",
+          "id":"features_col3_title",
+          "label": "Features Col 3 Title",
+          "default": "Award Winning"
+        },
+        {
+          "type":"textarea",
+          "id":"features_col3_text",
+          "label": "Features Col 3 Text",
+          "default": "Winner of the 2017 Dope Industry Award for best Concentrate Company."
+        }
+	]
+    }
+  	
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

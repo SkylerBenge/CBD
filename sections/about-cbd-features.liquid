@@ -1,0 +1,82 @@
+<!-- /sections/about-cbd-features.liquid -->
+{% assign feature_count = 0 %}
+{% for block in section.blocks %}
+{% assign feature_count = feature_count | plus:1 %}
+{% endfor %}
+{% assign half = feature_count | divided_by: 2 | floor %}
+<div class="wrapper">
+  <div data-section-id="{{ section.id }}" data-section-type="about-features" class="about-feature-wrap {% if settings.has_image %} has-image{% endif %}" id="about-features" >
+    <div class="about-col1">
+      {% for block in section.blocks limit: half %}
+      <div class="about-feature" data-slide-position="{{ forloop.index }}">
+        {{ block.settings.feature_icon | img_tag }}
+        <h3>{{ block.settings.feature_title }}</h3>
+        <div class="feature-text">{{ block.settings.feature_text }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if section.settings.has_image %}
+    <div class="about-feature about-image" style="background-image:url('{{ section.settings.page_image | img_url: '145x' }}');">
+    </div>
+    {% endif %}
+    
+    <div class="about-col2">
+      {% for block in section.blocks offset: half %}
+      <div class="about-feature col2" data-slide-position="{{ forloop.index }}">
+        {{ block.settings.feature_icon | img_tag }}
+        <h3>{{ block.settings.feature_title }}</h3>
+        <div class="feature-text">{{ block.settings.feature_text }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Features",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type":      "checkbox",
+        "id":        "has_image",
+        "label":     "Does this page have an image?"
+        
+    },
+	{
+      "type":      "image_picker",
+        "id":        "page_image",
+        "label":     "Page Image"
+        
+    }
+  ],
+  "blocks": [
+    {
+      "type": "about-feature",
+      "name": "Feature",
+      "settings": [
+		{
+          "type": "image_picker",
+          "id": "feature_icon",
+          "label": "Feature Icon"
+        },
+		{
+          "type": "text",
+          "id": "feature_title",
+          "label": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "feature_text",
+          "label": "Feature Text"
+        }
+        
+      ]
+    }
+  ],
+  "presets": [
+    
+  ]
+}
+{% endschema %}

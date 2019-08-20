@@ -1,0 +1,78 @@
+<!-- /templates/page.liquid -->
+
+<style>
+  .grid__item h1,  .grid__item p {
+    text-align: center;
+  }
+  .grid__item p { 
+    font-size: 20px;
+  }
+  form {
+    width: 400px;
+    height: 50px;
+    margin: 0 auto 50px;
+    display: table;
+  }  
+  select {
+    width: 400px;
+  }
+  #batch-input {
+    border: 2px solid #eeb237;
+    width: 300px;
+    border-radius: 0;
+    background-color: #fff;
+  }
+  #batch-submit {
+    background: #eeb237 no-repeat scroll center center;
+    width: 100px;
+    border: none;
+    border-top: 2px solid #eeb237;
+    border-bottom: 2px solid #eeb237;
+    border-right: 2px solid #eeb237;
+  }
+  .batch {
+    display: none;
+  }
+  form h1,.batch h1 {
+    text-align: center;
+  }
+  .batch-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+  .batch-list ul {
+    padding: 0 50px;
+    list-style: none;
+  }
+  .batch-list a {
+    color: #00b0b9;
+  }
+  @media only screen and (max-width: 421px) {
+    .grid__item form {
+     width: inherit;
+    }
+  }    
+</style>
+<div class="grid--full wrapper">
+  <div class="grid__item large--two-thirds push--large--one-sixth">
+	<h1 class= "page-title text-center">{{ page.title }}</h1> 
+      {{ page.content }}
+  </div>
+</div>
+
+<script>
+$("#batch-submit").click(function(e) {
+  e.preventDefault();
+  var current_batch = $("#batch-input").val(); 
+  $(".batch").hide();
+  $('.batch').each(function() {
+    var batch_number = $(this).attr("id");
+    var batch_number_last4 = batch_number.slice(-4);
+    if (current_batch == batch_number_last4){
+          console.log(current_batch);
+      $(this).show();
+    }
+  });
+});
+</script>

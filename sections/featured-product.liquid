@@ -1,0 +1,77 @@
+<!-- /sections/featured-product.liquid -->
+
+{% assign product = all_products[section.settings.featured_product] %}
+{% include 'bold-product' with product, hide_action: 'break', output: 'none' %}
+
+
+{% if product.available %}
+  {% assign sold_out = false %}
+{% else %}
+  {% assign sold_out = true %}
+{% endif %}
+
+{% if bold_compare_at_price_min > bold_price_min %}
+  {% if sold_out %}
+    {% assign on_sale = false %}
+  {% else %}
+    {% assign on_sale = true %}
+  {% endif %}  
+{% else %}
+  {% assign on_sale = false %}
+{% endif %}
+
+{% assign current_variant = bold_selected_or_first_available_variant %}
+
+<div class = "wrapper {% if product == blank %} onboarding-fp {% endif %} product--{{section.id}}" id = "featured-product"  data-section-id="{{ section.id }}"  data-section-type="featured-product">
+  <div class="featured-product text-center {% if tag == true %} fp-has-tag {% endif %}">
+  {% unless product == blank %}
+    {% include 'product-images' %}
+    {% include 'product-form' %}
+    
+<script type="application/json" id="ProductJson-{{ section.id }}">
+  {% include 'bold-product', output: 'json' %}
+</script>
+
+
+<script>
+window.product = {% include 'bold-product', output: 'json' %};
+window.product.add_label = {% if product.options.size == 1 %}true{% else %}false{% endif %};
+window.product.label = "{{ product.options.first | escape }}";
+window.selectCallback = PaloAlto.onVariantSelected;
+</script>
+
+  {% else %}
+    {% unless emptyState %}
+      {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+      {% assign emptyState = true %}
+    {% endunless %}
+    {% include 'onboarding-featured-product' %}
+  {% endunless %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured product",
+    "class":"featured-product-section",
+    "settings": [
+      {
+        "type": "product",
+        "id": "featured_product",
+        "label": "Product"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_social_sharing_products",
+        "label": "Show social sharing buttons",
+        "default":true
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured product",
+        "category": "Product"
+      }
+    ]
+  }
+{% endschema %}

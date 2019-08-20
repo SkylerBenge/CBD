@@ -1,0 +1,33 @@
+<div  data-section-id="{{ section.id }}" data-section-type="html-block" class = "featured-content-section no-image" id="featured-content" style="padding: 50px 20px; background-color: {{ section.settings.background-color }}">
+  <div>
+    {{ section.settings.html }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom HTML",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "html",
+      "id": "html",
+      "label": "HTML content",
+      "default": "<p>Write your own custom HTML content.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "category": "Advanced",
+      "name": "Custom HTML",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

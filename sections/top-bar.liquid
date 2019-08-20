@@ -1,0 +1,20 @@
+<!-- /section/top-bar.liquid -->
+{% if section.settings.top_bar_text != blank %}
+<div  data-section-id="{{ section.id }}"  data-section-type="top-bar" class = "top-bar wrapper">
+	<p>{{section.settings.top_bar_text | truncatewords: 50 }}</p>
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Top bar",
+  "class":"top-bar-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "top_bar_text",
+      "label": "Text"      
+    }
+  ]
+}
+{% endschema %}

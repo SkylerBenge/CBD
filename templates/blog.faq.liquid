@@ -1,0 +1,70 @@
+<!-- /templates/blog.liquid -->
+
+{% paginate blog.articles by 15  %}
+
+
+<div class="grid wrapper">
+  <div class="grid__item push--large--one-sixth large--two-thirds">
+    <div class = "grid">
+      <h1 class = "section-title text-center">
+        {{ blog.title | link_to: blog.url }}
+
+     </h1>
+
+     <div class = "grid__item push--large--one-eighth large--three-quarters medium-down--one-whole blog-tag-wrapper">
+
+        {% comment %}
+          Blog tags
+          {% endcomment %}
+          {% if blog.all_tags.size > 0 %}
+          <ul class="inline-list text-center">
+            {% for tag in blog.all_tags limit: 15 %}
+            {% if current_tags contains tag %}
+            <li class = "blog-tag">{{ tag }}</li>
+            {% else %}
+            <li class = "blog-tag">{{ tag | link_to_tag: tag }}</li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+    {% comment %}
+      Loop through each article.
+      {% endcomment %}
+      <div class = "grid">
+        {% for article in blog.articles reversed %}
+        <div class = "grid__item large--one-whole">
+          {% if article.image %}
+          <a href="{{ article.url }}"> <img class = "article-preview-image lazyload" data-src = "{{ article.image.src | img_url: 'master' }}" src = "{{ article.image.src | img_url: 'large' }}"></a>
+          {% endif %}
+          <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+          <a href="{{ article.url }}">
+            <div class="rte">
+              {% if article.excerpt.size > 0 %}
+              {{ article.excerpt }}
+              {% else %}
+              <p>{{ article.excerpt_or_content | strip_html | truncatewords: 150 }}</p>
+              {% endif %}
+            </div>
+          </a>
+          <ul class="inline-list">
+           
+            {% include 'tags-article' %}
+          </ul>
+        </div>
+        {% unless forloop.last %}<hr>{% endunless %}
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+        <hr>
+        <div class="pagination">
+          {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endpaginate %}

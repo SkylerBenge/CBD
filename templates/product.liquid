@@ -1,0 +1,44 @@
+{% include 'bold-product' with product, hide_action: 'break', output: 'none' %}
+{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-template.liquid
+{% endcomment %}
+
+{% section 'product-template' %}
+{% section 'product-template-add' %}
+{% comment %}
+{% section 'product-testimonials' %}
+{% endcomment %}
+{% unless product.handle contains 'pets' %}
+{% section 'html-block' %}
+{% else %}
+<div data-section-id="html-block" data-section-type="html-block" class="featured-content-section no-image" id="featured-content" style="padding: 50px 20px; background-color: #eeb237">
+  <div data-theme-editor-setting="section.html-block.html">
+    <!-- TrustBox widget - Carousel --> <div class="trustpilot-widget" data-locale="en-US" data-template-id="53aa8912dec7e10d38f59f36" data-businessunit-id="5c007c411320400001b3d005" data-style-height="130px" data-style-width="100%" data-theme="light" data-tags="SelectedReview" data-schema-type="Organization"> <a href="https://www.trustpilot.com/review/selectcbd.com" target="_blank"rel="noopener">Trustpilot</a> </div> <!-- End TrustBox widget -->
+  </div>
+</div>
+{% endunless %}
+<!-- BOLD - moved product bundle code here and commented it out from the product-form.liquid -->
+<!-- to switch back to old way, comment out here and uncomment in product-form.liquid -->
+{% unless bundle_loaded == 'true' %}
+{% include 'shappify-bdl-load-bundle' %}
+{% assign bundle_loaded = 'true' %}
+{% endunless %} 
+     
+{% section 'related-products' %}
+<!-- DRIP_PRODUCT_TRACKING_V1 -->
+<script text="text/javascript">
+  var _dcq = _dcq || [];
+  _dcq.push(['recordProductView', {{ product|json }}, {{ product.collections|map:'id'|json }}, '{{shop.currency}}', '{{ product.url }}']);
+</script>
+<!-- END_DRIP_PRODUCT_TRACKING_V1 -->
+
+<!-- VWO_PRODUCT_Browse_TRACKING -->
+<script>
+       var _rmData = _rmData || [];
+       _rmData.push(['productView', {
+         productId: {{product.id|json}},
+         productCategoriesIds: {{product.collections|map:'id'|json}},
+         productCategories: {{product.collections|map:'title'|json}}
+       }]);
+</script>
+<!-- END_VWO_PRODUCT_Browse_TRACKING -->

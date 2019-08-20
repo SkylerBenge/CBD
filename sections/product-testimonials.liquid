@@ -1,0 +1,89 @@
+<!-- /sections/testimonials.liquid -->
+
+{% comment %}
+Establishes the layout
+{% endcomment %}
+
+
+<div data-section-id="{{ section.id }}" data-section-type="testimonial-slider" class="testimonials-section {{ section.settings.background }}" id="testimonials" >
+  <div class="slide-block">
+    <div class="owl-carousel">
+
+      {% for block in section.blocks %}
+      <div class="item" data-slide-position="{{ forloop.index }}">
+        <div class="wrapper text-center">
+          <div class="testimonial-text">{{ block.settings.testimonial_text }}</div>
+          <div class="user-name">&mdash; {{ block.settings.customer_name }}</div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+  </div>
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type":      "radio",
+        "id":        "background",
+        "label":     "Background Color",
+        "options": [
+         
+		  { "value": "yellow", "label": "Yellow" },
+		  { "value": "green", "label": "Green" }
+        ],
+        "default":   "green"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "testimonial_text",
+          "label": "Testimonial"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum.</p>",
+            "customer_name":"Sherlock Holmes"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum.</p>",
+            "customer_name":"John Watson"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum.</p>",
+            "customer_name":"Mycroft Holmes"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

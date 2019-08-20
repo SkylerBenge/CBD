@@ -1,0 +1,178 @@
+<!doctype html>
+  <!--[if IE 8]><html class="no-js ie9 lt-ie9" lang="en"> <![endif]-->
+  <!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+  <!--[if !IE]><!--><html class="not-ie"><!--<![endif]-->
+  <head>
+    
+    <!-- Quantcast Custom Variables  -->
+    <script>
+      datalayer = [{
+        'orderid' : {{Order ID}},
+        'revenue' : {{Revenue}}
+      }];
+    </script>
+    <!-- Quantcast End Custom Variables -->
+        
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PWFLRT3');</script>
+<!-- End Google Tag Manager -->
+
+    <meta name="msvalidate.01" content="EB42097F44C264B1B6FB761B47840E1D" />
+                    {% include 'evm-seo' %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="p:domain_verify" content="981f4652391a5219b9a076b72a4d4638"/>
+
+    {% if settings.favicon != blank %}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32'}}" type="image/png" />
+    {% endif %}
+
+    <!-- Title and description ================================================== -->
+    {% comment %}<title>
+    {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    </title>{% endcomment %}
+
+    {% if page_description %}
+    {% comment %} <meta name="description" content="{{ page_description | escape }}"> {% endcomment %}
+    {% endif %}
+
+    <!-- Helpers ================================================== -->
+    {% include 'social-meta-tags' %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    {{ content_for_header }}
+{%- include 'bold-common' -%}
+{% include 'bold-product' with product, hide_action: 'header' %}
+
+	<!-- Start of curacan Zendesk Widget script -->
+<script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var e=this.createElement("script");n&&(this.domain=n),e.id="js-iframe-async",e.src="https://assets.zendesk.com/embeddable_framework/main.js",this.t=+new Date,this.zendeskHost="curacan.zendesk.com",this.zEQueue=a,this.body.appendChild(e)},o.write('<body onload="document._l();">'),o.close()}();
+/*]]>*/</script>
+<!-- End of curacan Zendesk Widget script -->
+    
+    <!-- Bootstrap -->
+	{{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+    {{ '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' | stylesheet_tag }}
+    {{ '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js' | script_tag }} 
+    
+    <!-- Google Webfonts ================================================== -->
+    {% include 'google-fonts' %}
+
+    <!-- CSS ================================================== -->
+    {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+    {{ 'custom.scss.css' | asset_url | stylesheet_tag }}
+    
+    <!-- JS ================================================== -->
+    {{ 'custom.js' | asset_url | script_tag }}    
+
+    <noscript>
+      <style>
+      /* Hide the element that masks the body white the fonts load */
+      .block-body {display: none !important;}
+      </style>
+    </noscript>
+    <meta name="google-site-verification" content="svbR5QpaicXZ5j7LA4kUQcto84iKZNlb8Mp7jUFnob4" />
+	
+    <!-- Header hook for plugins ================================================== -->
+    {% include 'header-javascript' %}
+
+    <!-- TrustBox script --> <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script> <!-- End TrustBox script -->
+    
+    <!-- Start Visual Website Optimizer Asynchronous Code -->
+<script type='text/javascript'>
+var _vwo_code=(function(){
+var account_id=398347,
+settings_tolerance=2000,
+library_tolerance=2500,
+use_existing_jquery=false,
+/* DO NOT EDIT BELOW THIS LINE */
+f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+</script>
+<!-- End Visual Website Optimizer Asynchronous Code -->   
+  </head>
+
+  <body id="{{ page_title | handle }}" class="{% if settings.header_bg_color == 'rgba(0,0,0,0)' %}full-header{% endif%} {% if customer %} customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} {{template | replace: '.', ' ' | handle }} no-outlines" >
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWFLRT3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    {% include 'age-check' %}
+    <div class = "block-body"></div>
+    {% section 'top-bar' %}
+    {% section 'header' %}
+    <div id="PageContainer" class="is-moved-by-drawer">
+      {% include 'breadcrumbs' %}
+      <main class="main-content" role="main">
+        {{ content_for_layout }}
+        
+      
+        
+      </main>
+      {% section 'footer' %}
+    
+    </div>
+    {% include 'footer-javascript' %}          
+    
+ 	<script>
+    jQuery(function() {
+      jQuery('.swatch :radio').change(function() {
+        var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+        var optionValue = jQuery(this).val();
+        jQuery(this)
+          .closest('form')
+          .find('.single-option-selector')
+          .eq(optionIndex)
+          .val(optionValue)
+          .trigger('change');
+      });
+    });
+    </script>
+    {% comment %}{% include 'linked-options' %}{% endcomment %}
+
+{% include 'special-offers' %}
+
+
+<!-- spurit_uev-added -->
+{% include 'spurit_uev-theme-snippet' %}
+<!-- /spurit_uev-added -->
+   
+  <!-- AVANTLINK SITEWIDE CODE -->
+    <script type="text/javascript">
+    (function() {
+    var avm = document.createElement('script'); avm.type = 'text/javascript'; avm.async = true;
+    avm.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.avmws.com/1017029/';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(avm, s);
+    })();
+    </script>
+  <!-- END AVANTLINK -->
+
+
+
+{% include 'revoffers' %}
+    
+  <!-- VWO Browse Abandonment Tracking -->    
+    <script>
+var _rmData = _rmData || [];
+_rmData.push(['setStoreKey', 'AmOdlJ4E']);
+{% if customer %}
+_rmData.push(['setCustomer', {{ customer.email | json }}]);
+{% endif %}
+</script>
+<script>(function(d, t) {
+var g = d.createElement(t),
+s = d.getElementsByTagName(t)[0];
+g.src = 'https://d3ryumxhbd2uw7.cloudfront.net/webtracking/track.js';
+s.parentNode.insertBefore(g, s);
+}(document, 'script'));</script>
+  <!-- END VWO Browse Abandonment Tracking-->    
+    
+<!-- Warning: Do not remove. This is used for CartHook Checkout Replacement -->
+{% capture the_snippet_content %}{% include 'carthook-checkout' %}{% endcapture %} {% unless the_snippet_content contains "Liquid error" %} {% include 'carthook-checkout' %} {% endunless %}
+<!-- Warning: Do not remove. This is used for CartHook Checkout Replacement -->
+<input type="hidden" name="page_handle" class="get_current_page_handle" value="{{ page.title }}"></body>
+
+</html>

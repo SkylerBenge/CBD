@@ -1,0 +1,119 @@
+<!-- /sections/featured-image.liquid -->
+
+
+
+{% if section.settings.btn_link != blank %}
+  {% assign btn_link =  section.settings.btn_link  %}
+{% else %}
+  {% assign btn_link = "#!" %}
+{% endif %}
+
+<style>
+.featured-image-section--{{  section.id }} {
+ 		background-color:white;
+}
+</style>
+
+<div class = "featured-image-section featured-image-section--{{ section.id }} {% if section.settings.enable_featured_image_parallax %} {{ ba_fixed }} {% endif %} {{ section.settings.image_position }} {{ section.settings.image_height }} {% if section.settings.image == blank %} placeholder-bg {% endif %}"  data-section-id="{{ section.id }}"  data-section-type="featured-image" id="featured-image">
+  <div class="featured-image-section-inner">
+   		{{ section.settings.image_1 | img_url: '900x' | img_tag: block.settings.image_1.alt }}
+    <h3 class="h1">{{section.settings.title}}</h3>
+    <div class="wrapper narrow">{{section.settings.content}}</div>
+  {% if section.settings.btn_text != blank %}
+    <a class="btn call-to-action" href="{{ btn_link }}" target="_blank">{{ section.settings.btn_text }}</a>
+  {% endif %}
+  </div>
+</div>
+
+{% schema %}
+  {
+  "name": "Featured image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image height",
+      "default": "one-hundred-height-hero",
+      "options": [
+        {
+          "value": "one-hundred-height-hero",
+          "label": "Full screen height"
+        },
+        {
+          "value": "seventy-five-height-hero ",
+          "label": "Tall"
+        },
+        {
+          "value": "sixty-six-height-hero",
+          "label": "Medium"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "label": "Center point of image",
+      "id": "image_position",
+      "default": "bg-pos-center",
+      "options": [
+        {
+          "value": "bg-pos-top",
+          "label": "Top"
+        },
+        {
+          "value": "bg-pos-center",
+          "label": "Center"
+        },
+        {
+          "value": "bg-pos-bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_featured_image_parallax",
+      "label": "Enable parallax",
+      "default":false
+    },
+	{
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+	{
+      "type": "richtext",
+      "id": "content",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "button"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured image",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
