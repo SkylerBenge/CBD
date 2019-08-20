@@ -1,0 +1,117 @@
+// collection form
+.grid__item.product-item-parent > .btn, .grid__item.product-item-parent form {
+  display: inline-block;
+  min-width: 170px;
+}
+@media (min-width: 1500px) { 
+  .grid__item.product-item-parent > .btn, .grid__item.product-item-parent form {
+    margin: 0 5px;
+    width: 30%;
+  }
+  .btn, .grid__item.product-item-parent form a {
+    width: 100%;
+  }
+}
+@media (max-width: 1100px) and (min-width: 540px) {
+  .grid__item.product-item-parent > .btn {
+    margin-bottom: 20px;
+  }
+}
+
+
+//variants
+.only-radio {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  &:checked + label {
+    color: #fff;
+    &::before {
+      border: 2px solid #000;
+      background: #000;
+    }
+  }
+}
+.swatch-wrapper label::before {
+  display: inline-block;
+  content: "";
+  height: 15px;
+  width: 15px;
+  margin-right: 10px;
+  border: 2px solid #abc;
+  border-radius: 50%;
+  transition: all 0.25s linear;
+}
+
+//range-slider
+.owl-carousel {
+    background-color: #00b0b9;
+    text-align: center;
+  h1 {
+    font-size: 6vw;
+  }
+  .item {
+    padding-bottom: 50%;
+  }
+  .slider-btn {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .overlay {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;    
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 75% !important;
+  }
+  .owl-nav {
+    display: none;
+  }
+  .owl-dots {
+    display: none;
+  }
+}
+
+.slidercontainer {
+  width: 300px;
+  margin: 0 auto;
+  border: 2px solid #00b0b9;
+  background: #fff;
+  border-radius: 10px;
+  .slider {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    width: calc(100% - 4px);
+    height: 4px;
+    margin: 10px 2px;
+    padding: 0;
+    background: #00b0b9;
+    border-radius: 4px;
+    border: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #fff;
+    border: 2px solid #00b0b9;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .owl-item {
+    transition: opacity 1s ease;
+    opacity: 0.5;
+  }
+  .owl-item.active.center {
+    opacity: 1;
+  }
+}
