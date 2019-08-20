@@ -1,0 +1,30 @@
+{% comment %}
+Check if there is an image whose alt tag matches 
+the variant title, if so assign it to variant image. 
+{% endcomment %}
+
+{% assign variant_title = variant.title | remove:' /' %}
+{% assign variant_image = false %}
+{% for image in product.images %}
+ {% if image.alt == variant_title %}
+	{% assign variant_image = image.src | img_url: 'large' %}
+ {% endif %}
+{% endfor %}
+
+<li>
+  <div class="product-variant-wrap">
+    <a href="{{ variant.url | within: collection }}" class="grid__image">
+      {% if variant_image ==  false %}
+      <img src="{{ variant.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+      {% else %}
+      <img src="{{variant_image}}" alt="{{ product.featured_image.alt | escape }}">
+      {% endif %}
+    </a>
+
+    <p class="h6">
+      <a href="{{ variant.url | within: collection }}">{% for color in v_options offset:1 %}{% if color.size >= 3 and color != "intl" %}<span class="color">{{color}}</span>{% endif %}{% endfor %} {{ product.title | remove:'CASE' }}<br>{% for size in v_options limit:1 %}{% if product.type contains 'Case' %} {{size}} CASE {% else %}{{size}}{% endif %}{% endfor %} </a>
+    </p>
+
+
+  </div>
+</li>

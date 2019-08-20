@@ -1,0 +1,30 @@
+{% if settings.newsletter_form_action != blank %}
+  <form action="https://app.remarkety.com/public/subscribers/createcontact/" style="display: flex;" method="post">
+      <input type="hidden" name="store_id" value="AmOdlJ4E">
+      <input type="hidden" name="form_id" value="Wx4AwXdr">
+      <input type="hidden" name="double_optin" value="1">
+      <input type="hidden" name="tag_1" value="remarkety_newsletter">
+      <input type="text" id="mail" placeholder="email@example.com" name="email">
+      <button type="submit" id="subscribe" style="width:60px;"value="Submit"><i class = "custom-icon-long-arrow"></i></button>
+  </form>
+  {% else %}
+    {% form 'customer' %}
+      {% if form.posted_successfully? %}
+        <p><em>Success!</em></p>
+      {% elsif form.errors %}
+        {% for field in form.errors %}
+          <p><em>{{ field }} - {{ form.errors.messages[field] }}</em></p>
+        {% endfor %}
+      {% endif %}
+
+      <input type="hidden" name="contact[accepts_marketing]" value="true">
+      <div class="input-group newsletter-form">
+        <input type="email" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.email' | t }}" autocorrect="off" autocapitalize="off" name="contact[email]" />
+        <span class="input-group-btn">
+          <button type="submit" name="subscribe" id="subscribe" value="">
+            <i class = "custom-icon-long-arrow"></i>
+          </button>
+        </span>
+      </div>
+    {% endform %}
+  {% endif %}

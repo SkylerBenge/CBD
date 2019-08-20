@@ -1,0 +1,44 @@
+
+<script>window.fonts = [];</script>
+{% assign headingFont = settings.heading_font %}
+{% assign bodyFont = settings.body_font %}
+{% assign buttonFont = settings.button_font %}
+{% assign accentFont = settings.accent_font %}
+{% if settings.heading_font contains 'Montserrat' %}
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,300i,500,500i" rel="stylesheet">
+{% else %}
+
+  {% if settings.heading_font contains 'Google' %}
+      {% assign type_base_parts = settings.heading_font | split: '_' %}
+      {% capture base_google_url %}{{ type_base_parts[1] }}:{{ type_base_parts[2] }}{% endcapture %}
+      <script>window.fonts.push('{{ base_google_url }}');</script>
+      <noscript>{{ '//fonts.googleapis.com/css?family=' | append: base_google_url | stylesheet_tag }}</noscript>
+  {% endif %}
+{% endif %}
+
+{% if bodyFont != headingFont %}
+	{% if settings.body_font contains 'Google' %}
+		{% assign type_base_parts = settings.body_font | split: '_' %}
+		{% capture base_google_url %}{{ type_base_parts[1] }}:{{ type_base_parts[2] }}{% endcapture %}
+		 <script>window.fonts.push('{{ base_google_url }}');</script>
+		<noscript>{{ '//fonts.googleapis.com/css?family=' | append: base_google_url | stylesheet_tag }}</noscript>
+	{% endif %}
+{% endif %}
+
+{% if buttonFont != bodyFont and buttonFont != headingFont %}
+	{% if settings.button_font contains 'Google' %}
+		{% assign type_base_parts = settings.button_font | split: '_' %}
+		{% capture base_google_url %}{{ type_base_parts[1] }}:{{ type_base_parts[2] }}{% endcapture %}
+		 <script>window.fonts.push('{{ base_google_url }}');</script>
+		<noscript>{{ '//fonts.googleapis.com/css?family=' | append: base_google_url | stylesheet_tag }}</noscript>
+	{% endif %}
+{% endif %}
+
+{% if accentFont != bodyFont and accentFont != headingFont and accentFont != buttonFont %}
+	{% if settings.accent_font contains 'Google' %}
+		{% assign type_base_parts = settings.accent_font | split: '_' %}
+		{% capture base_google_url %}{{ type_base_parts[1] }}:{{ type_base_parts[2] }}{% endcapture %}
+		 <script>window.fonts.push('{{ base_google_url }}');</script>
+		<noscript>{{ '//fonts.googleapis.com/css?family=' | append: base_google_url | stylesheet_tag }}</noscript>
+	{% endif %}
+{% endif %}

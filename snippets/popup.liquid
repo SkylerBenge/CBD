@@ -1,0 +1,31 @@
+<!-- /snippets/popup.liquid -->
+
+{% if settings.show_popup %}
+	<div id="popup" class="modal popup text-center" style = "display:none;">
+		{% unless pages[settings.popup_page].content == "" %}
+			{{ pages[settings.popup_page].content | truncate: 300  }}
+		{% else %}
+			{{ 'homepage.onboarding.popup_html' | t }}
+		{% endunless %}
+		{% if settings.show_popup_newsletter %}
+	  	{% form 'contact' %}
+	        {{ form.errors | default_errors }}
+	    	{% if form.posted_successfully? %}
+		          <div class="newsletter--form">
+		            <div class="note form-success">{{ 'general.newsletter_form.newsletter_success' | t }}</div>
+		          </div>
+	    	{% else %}
+	    		<div id="mc-embedded-subscribe-form" class="input-group">
+		           	<input type="hidden" value="contact" name="form_type">
+			        <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.email' | t }}" name="contact[email]" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.email' | t }}" autocorrect="off" autocapitalize="off">
+			        <span class="input-group-btn">
+			          <button type="submit" name="subscribe" id="subscribe" value="">
+			            <i class = "custom-icon-long-arrow"></i>
+			          </button>
+			        </span>
+		        </div>                    
+	    	{% endif %}
+	      {% endform %}
+		{% endif %}
+	</div>
+{% endif %}

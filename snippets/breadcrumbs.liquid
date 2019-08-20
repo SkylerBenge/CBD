@@ -1,0 +1,75 @@
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' %}
+<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+  <a href="/" title="Home">Home</a>
+  {% if template contains 'page' %}
+    <span aria-hidden="true">&rsaquo;</span>
+    <span>{{ page.title }}</span>
+  {% elsif template contains 'product' %}
+    {% if collection.url %}
+      <span aria-hidden="true">&rsaquo;</span>
+      {{ collection.title | link_to: collection.url }}
+    {% endif %}
+    <span aria-hidden="true">&rsaquo;</span>
+    <span>{{ product.title }}</span>
+  {% elsif template contains 'collection' and collection.handle %}
+    <span aria-hidden="true">&rsaquo;</span>
+    {% if current_tags %}
+      {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+      {{ collection.title | link_to: url }}
+      <span aria-hidden="true">&rsaquo;</span>
+      <span>{{ current_tags | join: " + " }}</span>
+    {% else %}
+      <span>{{ collection.title }}</span>
+    {% endif %}
+  {% elsif template == 'blog' %}
+    <span aria-hidden="true">&rsaquo;</span>
+    {% if current_tags %}
+      {{ blog.title | link_to: blog.url }}
+      <span aria-hidden="true">&rsaquo;</span>
+      <span>{{ current_tags | join: " + " }}</span>
+    {% else %}
+    <span>{{ blog.title }}</span>
+    {% endif %}
+  {% elsif template == 'article' %}
+    <span aria-hidden="true">&rsaquo;</span>
+    {{ blog.title | link_to: blog.url }}
+    <span aria-hidden="true">&rsaquo;</span>
+    <span>{{ article.title }}</span>
+  {% else %}
+   <span aria-hidden="true">&rsaquo;</span>
+   <span>{{ page_title }}</span>
+  {% endif %}
+</nav>
+{% endunless %}
+
+<style> 
+{% if template contains 'product' or page.handle contains 'why' %}
+.breadcrumb {
+  background-color: #00b0b9;
+} 
+.breadcrumb * {
+  color: #fff;
+}
+{% elsif template contains 'collection' and collection.handle %} 
+.breadcrumb {
+  background-color: #fafafa;
+} 
+.breadcrumb * {
+  color: #333;
+}  
+{% elsif page.handle contains 'press' %} 
+.breadcrumb {
+  background-color: #fafafa;
+} 
+.breadcrumb * {
+  color: #333;
+}    
+{% else %}
+.breadcrumb {
+  background-color: #fff;
+} 
+.breadcrumb * {
+  color: #333;
+}  
+{% endif %}
+</style>

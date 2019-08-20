@@ -1,0 +1,46 @@
+<!-- BOLD - moved product bundle code here and commented it out from the product-form.liquid -->
+<!-- to switch back to old way, comment out here and uncomment in product-form.liquid -->
+{% unless bundle_loaded == 'true' %}
+{% include 'shappify-bdl-load-bundle' %}
+{% assign bundle_loaded = 'true' %}
+{% endunless %} 
+
+<div class="related-products">
+{% assign number_of_products = 3 %}
+{% assign number_of_products_to_fetch = number_of_products | plus: 1 %}
+
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+  {% assign found_a_collection = false %}
+  {% for c in product.collections %}
+    {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+      {% assign found_a_collection = true %}
+      {% assign collection = collections['all'] %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+
+{% if collection and collection.products_count > 1 %}
+  <div class="section-header section-header--medium">
+    <h2 class="h4" class="section-header__title">{{ 'products.general.related_products_title' | t }}</h2>
+  </div>
+  <div class="grid--full wrapper">
+    {% assign current_product = product %}
+    {% assign current_product_found = false %}
+    {% for product in collection.products limit: number_of_products_to_fetch %}
+      {% if product.handle == current_product.handle %}
+        {% assign current_product_found = true %}
+      {% elsif current_product.handle contains "lenitiv" and product.handle contains "gel-caps" %}
+    	{% continue %}
+      {% else %}
+        {% unless current_product_found == false and forloop.last %}
+          {% assign grid_item_width = 'post-large--one-quarter medium--one-quarter small--one-half' %}
+          {% assign featured = product %}
+            {% include 'bold-product' with product, hide_action: 'skip' %}
+            {% include 'product-grid-item', collection_count: ‘collection.all_products_count’ %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+</div>

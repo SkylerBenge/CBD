@@ -1,0 +1,14 @@
+<li>
+  <div class="product-variant-wrap">
+    <a href="{{product.url | within: collection }}" class="grid__image">
+      <img src="{{ product.featured_image.src | img_url: 'large' }}" alt="{{ product.featured_image.alt | escape }}">
+    </a>
+
+    <p class="h6">
+
+      <a href="{{ product.url | within: collection }}">{{ product.title | remove:'Case' }}{% if product.type contains 'Case' %}<br><span class="iphone-i">i</span>Phone {{size}} Case{% endif %} </a>
+    </p>
+
+
+  </div>
+</li>

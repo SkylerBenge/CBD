@@ -1,0 +1,94 @@
+<!-- /snippets/product-grid-item.liquid -->
+
+{% include 'grid-logic' %}
+
+{% assign tag = false %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% else %}
+  {% assign sold_out = true %}
+  {% assign tag = true %}
+{% endif %}
+
+{% include 'bold-product' with product, hide_action: 'skip' %}
+
+
+{% if bold_compare_at_price_min > bold_price_min %}
+  {% if sold_out %}
+    {% assign on_sale = false %}
+  {% else %}
+    {% assign on_sale = true %}
+    {% assign tag = true %}
+  {% endif %}  
+{% else %}
+  {% assign on_sale = false %}
+{% endif %}
+
+<div class="grid__item text-center {{ grid_item_width }} {% if tag == true %}has-tag{% endif %} product-item-parent">
+
+  <!-- Image -->
+  <a href="{{ product.url | within: collection }}" class="grid__image">
+
+  <!-- Tags -->
+  {% if on_sale %}
+    <div class="tag"><span>{{ 'products.product.on_sale_html' | t }}</span></div>
+  {% endif %}
+  {% if sold_out %}
+    <div class="tag"><span>{{ 'products.product.sold_out_html' | t }}</span></div>
+  {% endif %}
+  
+    <div class = "table">
+      <div class = "cell">
+        <img class = "product-image lazyload" data-src="{{ product.featured_image.src | img_url: 'grande' }}" src="{{ product.featured_image.src | img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}">
+      </div>
+    </div>
+  </a>
+
+  <!-- Title -->
+  <h3><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h3>
+  <a href="{{ product.url | within: collection }}">
+    <!-- Price -->
+    <p class="price">
+      {% if on_sale == true %}
+         {{ bold_price | money | remove: '.00' }}
+        <span class = "reduced-price"><s>{{ bold_compare_at_price | money | remove: '.00' }}</s></span>
+      {% elsif bold_price_varies %}
+        {{bold_price_min | money | remove: '.00' }} - {{ bold_price_max | money | remove: '.00' }}
+      {% else %}
+        {{ bold_price | money | remove: '.00' }}
+      {% endif %}
+    </p>
+  </a>
+  {% if settings.show_product_grid_buttons %}
+  <a class="product-grid btn" href="{{ product.url | within: collection }}">{{ 'products.product.view_item' | t }}</a>
+  {% endif %}
+  <form action="/cart/add" method="post" class="add-to-cart-form">	
+    <input id="variant" type="hidden" name="id" value="{{ product.variants.first.id }}" /> 
+    <input type="submit" value="Add to cart" class="add-to-cart-button btn" onclick="cartGraphic()" />
+  </form> 
+  {% comment %} <p>{{ product.description | strip_html |  truncatewords: 20 }}</p>{% endcomment %}
+</div>
+
+<script>
+function cartGraphic() {
+  swal({
+    position: 'top-right',
+    type: 'success',
+    title: 'Product added to cart!',
+    showConfirmButton: false,
+    timer: 1500
+  })
+}
+$( ".add-to-cart-form" ).submit(function( event ) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  jQuery.post('/cart/add.js', {
+    quantity: 1,
+    id: $(this).find("#variant").val()
+  });
+  console.log("form submit");
+  var cart_count = parseInt($("#CartCount").html())+1;
+  $("#CartCount").replaceWith("<span id='CartCount'>"+cart_count+"</span>");
+});
+ 
+</script>

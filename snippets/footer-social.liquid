@@ -1,0 +1,31 @@
+<div class="social-sharing-wrapper">
+  {% if settings.social_facebook_link != blank %}
+    <a class = "facebook" href = "{{settings.social_facebook_link }}">
+      <i class = "custom-icon-facebook-2"></i >
+    </a>
+  {% endif %}
+
+  {% if settings.social_twitter_link != blank %}
+    <a class = "twitter" href = "{{ settings.social_twitter_link }}">
+      <i class = "custom-icon-twitter-2"></i>
+    </a>
+  {% endif %}
+
+  {% if settings.social_pinterest_link != blank %}
+    <a class = "pinterest" href = "{{settings.social_pinterest_link }}">
+      <i class = "custom-icon-pinterest-2"></i>
+    </a>
+  {% endif %}
+
+  {% if settings.social_google_plus_link != blank %}
+    <a class = "google-plus" href = "{{ settings.social_google_plus_link }}">
+      <i class = "custom-icon-google-plus-2"></i>
+    </a>
+  {% endif %}
+
+  {% if settings.social_instagram_link != blank %}
+    <a class = "instagram" href = "{{ settings.social_instagram_link }}">
+      <i class="icon icon-instagram" ></i>
+    </a>
+  {% endif %}
+</div>

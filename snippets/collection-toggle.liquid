@@ -1,0 +1,109 @@
+<style>
+.toggle-container {
+  padding-top: 25px;
+  width: 100%;
+  text-align: center;
+  background: #f7f7f7;
+}
+.collection-toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.collection-toggle-switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.collection-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00B0B9;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.collection-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .collection-toggle-slider {
+  background-color: #00B0B9;
+}
+
+input:focus + .collection-toggle-slider {
+  box-shadow: 0 0 1px #00B0B9;
+}
+
+input:checked + .collection-toggle-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.featured-collection-section {
+  transition: all .5s linear;
+} 
+.featured-collection-list-section {
+  margin-top: -50px;
+  transform: translateX(100%);  
+  transition: all .5s linear;  
+  height: 0;
+}
+.toggle-container h2:after {
+  content: 'View Categories';
+}
+.toggle-container h2.moved:after {
+  content: 'View Products';
+}  
+.featured-collection-section.moved {
+  transform: translateX(-100%);
+  height: 0;
+  transition: all .5s linear;
+}
+.featured-collection-list-section.moved {
+  height: inherit;
+  transform: translateX(0);
+  transition: all .5s linear;
+}  
+</style>
+<div class="toggle-container">
+<h2></h2>
+
+<label class="collection-toggle-switch">
+  <input class="collection-toggle-checkbox" type="checkbox" checked>
+  <span class="collection-toggle-slider"></span>
+</label>
+</div>
+
+<script>
+$(document).ready(function() {
+  $('.collection-toggle-checkbox').change(function() {
+    $(".featured-collection-section").toggleClass("moved");       
+    $(".featured-collection-list-section").toggleClass("moved");  
+    $(".toggle-container h2").toggleClass("moved");  
+    if ($(this).is(':checked')) {
+      $(".featured-collection-section").css("height", "0");
+      $(".featured-collection-list-section").css("height", "inherit");
+      setTimeout(function(){ 
+      	$(".featured-collection-section").css("height", "");
+      	$(".featured-collection-list-section").css("height", "");
+      }, 500);
+    }
+  });
+});
+</script>

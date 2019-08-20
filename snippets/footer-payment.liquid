@@ -1,0 +1,12 @@
+{% unless shop.enabled_payment_types == empty %}
+  <ul class="payment-icon-list grid-uniform">
+    {% for type in shop.enabled_payment_types %}
+    <li classs = "grid__item large--one-eighth">
+      <span class="icon-fallback-text">
+        <span class="icon icon-{{type}}" aria-hidden="true"></span>
+        <span class="fallback-text">{{ type | replace: '_',' '}}</span>
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+{% endunless %}

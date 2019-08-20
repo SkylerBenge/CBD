@@ -1,0 +1,118 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+
+{% assign file_extension = 'png' %}
+{% if swatch == blank %}
+<div class="swatch error">
+  <p>You must include the snippet swatch.liquid with the name of a product option.</p> 
+  <p>Use: <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+</div>
+{% else %}
+
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+
+{% for option in product.options %}
+
+  {% if option == swatch %}
+    {% assign found_option = true %}
+    {% assign option_index = forloop.index0 %}
+    <style>
+      label[for="productSelect--product-template-option-{{ option_index }}"] { display: none!important; }
+      #productSelect--product-template-option-{{ option_index }} { display: none; }
+      #productSelect--product-template-option-{{ option_index }} + .custom-style-select-box { display: none !important; }
+    </style>
+    
+    {% assign downcased_option = swatch | downcase %}
+    {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+      {% assign is_color = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% assign current_variant = bold_selected_or_first_available_variant %}
+{% assign v_size = false %}
+{% if swatch contains 'iPhone' %}
+	{% assign v_options = current_variant.title | split: ' / ' %}{% capture v_size %}{% for size in v_options limit:1 %}{{size}}{% endfor %}{% endcapture %}
+{% endif %}
+
+{% unless found_option %}
+<div class="swatch error">
+  <p>You included the snippet swatch.liquid with the name of a product option — <code>'{{ swatch }}'</code> — that does not belong to your product.</p>
+  <p>Use <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+  <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
+  <p><strong>This is case-sensitive!</strong> Do not put in <code>'color'</code> if your product option name is <code>'Color'</code>.</p>
+</div>
+{% else %}
+<div class="swatch preload {% if is_color %}circle-swatch{% else %} image-swatch {% endif %} clearfix" data-option-index="{{ option_index }}">
+  <div class="header">{% if swatch contains 'iPHONE' %}CHOOSE YOUR {% endif %}{{ swatch }}{% if is_color %}<div class="current_color"></div>{% endif %}</div>
+  
+  <div class="swatch-wrapper">
+  {% assign values = '' %}
+  {% for variant in product.variants %}
+{% include 'bold-variant' with variant, hide_action: 'skip' %}
+    {% assign value = variant.options[option_index] | remove: csp_flag_string %}
+    {% unless values contains value %}
+      {% assign values = values | join: ',' %}
+      {% assign values = values | append: ',' | append: value %} 
+      {% assign values = values | split: ',' %}
+      <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+        <input id="swatch-{{ option_index }}-{{ value | handle }}" class="only-radio" style="display: inline-block !important;" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% unless v_size == false %}{% if v_size == value %} checked{% endif %}{% elsif current_variant.title contains value %} checked{% endunless %}  />
+        
+        {% if is_color %}
+        <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | first | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | file_url }})">
+          <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+        </label>
+        {% else %}
+        <label for="swatch-{{ option_index }}-{{ value | handle }}" >
+          <!-- <img class="swatch-icon" src="{{ value | remove:'iPHONE' | handle | append: '.' | append: file_extension | asset_url }}" /> -->
+          <span class="swatch-title" >{{value | remove: 'iPHONE' }}</span>
+        </label>
+        {% endif %}
+        
+        
+      </div>
+    {% endunless %}
+    {% if variant.available %}
+
+    <script>
+      jQuery('.swatch[data-option-index="{{ option_index }}"] .{{ value | escape | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
+            // console.log(('.swatch[data-option-index="{{ option_index }}"] .{{ value| escape | handle }}').find(':radio'));
+    </script>
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+
+{% endunless %}
+
+{% endif %}
+<script>
+  $(window).on('load', function(){
+    //console.log('load!!!!');
+    //console.log({{option_index}});
+    //$('.selector-wrapper').eq({{option_index}}).css('display','none'); 
+  });
+      
+</script>
+
+<script>
+  $('.swatch-element').click(function() {
+    console.log($(this).find('input').val());
+    var value = $(this).find('input').val();
+    var price = value.substr(value.length - 6); 
+    $('#ProductPrice').text(price);    
+  });
+  $('.product-single__thumbnail img').click(function() {
+    var value = $(this).attr("alt");
+    var price = value.substr(value.length - 6); 
+    $('#ProductPrice').text(price);
+    value = "swatch-0-" + value.replace(/\-|\$/g, '');
+    value = value.replace(/\$|\.|\s/g, '-').toLowerCase();
+    $('#' + value + '').click();
+    console.log(value);
+  });
+</script>
+

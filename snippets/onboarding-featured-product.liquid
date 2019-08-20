@@ -1,0 +1,40 @@
+{% comment %}
+  Blank single product state
+{% endcomment %}
+
+{% unless emptyState %}
+  {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+  {% assign emptyState = true %}
+{% endunless %}
+
+<div>
+  
+  <!-- Fake Image -->
+  <div class="popup-gallery" >
+    <div class = "product-page-frame frame">
+        <a href="#!" class = "fake-product">
+          {{ 'product-5' | placeholder_svg_tag: 'placeholder-svg' }}
+        </a>
+    </div>
+  </div>
+
+  <!-- Fake Product Text -->
+  <h1 class = "featured-product-title">
+    <a href="#!">{{ 'homepage.onboarding.product_title' | t }}</a>
+  </h1>
+
+  <h2 id="ProductPrice" itemprop="price"> 
+    $19.99
+  </h2>
+ 
+  <div class="product-description rte" itemprop="description">
+  Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+  </div>
+
+  <button type="submit" name="add" id="AddToCart" class="btn">
+    <span id="AddToCartText">{{ 'products.product.add_to_cart' | t }}</span>
+  </button>
+
+</div>
+
+
